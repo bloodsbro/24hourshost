@@ -1,0 +1,18 @@
+# Установка кодировки
+AddDefaultCharset utf-8
+php_value memory_limit 10000M
+# Запрет листинга директории
+Options -Indexes
+
+# Анти Зависание PHP
+php_value max_execution_time 60
+php_value upload_max_filesize 128M
+
+RewriteEngine on 
+
+# Настройки ЧПУ
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Ошибки Индекс
+RewriteRule ^(.*)$ index.php?action=$1 [L,QSA]

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="135.181.142.164" id="a463aade-a101-4ed4-9c40-de01882c6b11" keyPath="C:\Users\Admin\Desktop\empire_private.ppk" port="4815" nameFormat="DESCRIPTIVE" username="root" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>

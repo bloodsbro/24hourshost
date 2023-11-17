@@ -1,0 +1,11 @@
+
+.modal-mobile-search .fancybox-skin .dg-modal-inner .items .item.active .body-toggle .dg-input-wrapper,.modal-mobile-sort-filter .fancybox-skin .dg-modal-inner .items .item.active .body-toggle .dg-input-wrapper{display:block}
+.dg-input-wrapper{display:inline-block;min-width:100px}
+.dg-input-wrapper:not(:last-child){margin-right:15px}
+.extended-search .wrap-object-search .dg-input-wrapper{min-width:auto}
+.extended-search .wrap-object-search .dg-input-wrapper .dg-field-label{font-size:12px!important;line-height:20px;width:100%}
+#domains-control-form .search-change-type .dg-field-group,#domains-control-form .search-change-type .dg-input-wrapper{min-width:auto;margin-right:20px}
+#modal-close-ticket .field-ticket-resolved .dg-input-wrapper{min-width:50px}
+#modal-close-ticket .field-ticket-resolved .dg-input-wrapper label{font-size:12px}
+.modal-create-ticket-page .field-ticket-priority .dg-input-wrapper{display:block}
+.modal-create-subuser-page .field-subuser-permission .dg-input-wrapper{display:block}
