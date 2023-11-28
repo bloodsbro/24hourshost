@@ -188,52 +188,59 @@
 					</div>
 				</div>
 				<?endif;?>
-				<?if($freekassa == 1):?>
-				<div class="col-lg-4">
-					<div class="card card-custom gutter-b" style="box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);">
-						<div class="card-body">
-							<center><img src="/application/public/img/pay/freekassa.png" style="max-width:100%;height:50px;" alt=""></center>
-						</div>
-						<hr>
-						<div class="modal-content">
-							<form id="freepay" method="POST" class="form_0" style="padding:0px; margin:0px;">
-								<div class="modal-body">
-									<div class="form-group">
-										<label>Введите сумму</label>
-										<input class="form-control" id="ammount" name="ammount" placeholder="100">
-									</div>
-								</div>
-								<div class="modal-footer">
-									<center>
-										<a href="/tickets/create" class="btn btn-outline-primary" role="button">Поддержка</a>
-									</center>
-									<button type="submit" class="btn btn-primary font-weight-bold">Пополнить</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-				<?endif;?>
+                <?if($freekassa == 1):?>
+                    <div class="col-lg-4">
+                        <div class="card card-custom gutter-b" style="box-shadow: 0.4em 0.4em 5px rgba(65,35,90,0.5);">
+                            <div class="card-body">
+                                <center><img src="https://cdn.freekassa.ru/banners/big-dark-2.png" style="max-width:100%;height:50px;" alt=""></center>
+                            </div>
+                            <hr>
+                            <div class="modal-content">
+                                <form id="freepay" method="POST" class="form_0" style="padding:0px; margin:0px;">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Введите сумму</label>
+                                            <input class="form-control" id="ammount" name="ammount" placeholder="100">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <center>
+                                            <a href="/tickets/create" class="btn btn-outline-primary" role="button">Поддержка</a>
+                                        </center>
+                                        <button type="submit" class="btn btn-primary font-weight-bold">Пополнить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?endif;?>
+                <?if($aaio == 1):?>
+                    <div class="col-lg-4">
+                        <div class="card card-custom gutter-b" style="box-shadow: 0.4em 0.4em 5px rgba(65,35,90,0.5);">
+                            <div class="card-body">
+                                <center><img src="https://aaio.io/assets/landing/img/logo-w.svg " style="max-width:100%;height:50px;" alt=""></center>
+                            </div>
+                            <hr>
+                            <div class="modal-content">
+                                <form id="aaio" method="POST" class="form_0" style="padding:0px; margin:0px;">
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Введите сумму</label>
+                                            <input class="form-control" id="ammount" name="ammount" placeholder="100">
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <center>
+                                            <a href="/tickets/create" class="btn btn-outline-primary" role="button">Поддержка</a>
+                                        </center>
+                                        <button type="submit" class="btn btn-primary font-weight-bold">Пополнить</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                <?endif;?>
 			</div>
-			<div class="col-lg-10 col-xl-12 mb-2">
-               <div class="card card-custom mb-4 mb-lg-0">
-                  <div class="card-body" style="box-shadow: 0.4em 0.4em 5px rgba(122,122,122,0.5);">
-                     	<div class="col-lg-10 col-xl-12 mb-2">
-						<center>
-						 <div class="text-dark text-hover-primary font-weight-bold font-size-h4">Безопасная и быстрая оплата</div>
-						<hr>
-						<div class="col-lg-10 col-xl-12">
-						  <a target="blank" class="mb-3" href="https://qiwi.com/"> <img style="padding: 10px;" width = "150" height = "75" src="/application/public/img/pay/qiwi.png" alt="" /> </a>
-						  <a target="blank" class="mb-3" href="https://www.free-kassa.ru/"> <img style="padding: 10px;" width = "230" height = "75" src="/application/public/img/pay/freekassa.png" alt="" /></a>
-						  <a target="blank" class="mb-3" href="https://www.lite-kassa.ru/"> <img style="padding: 10px;" width = "230" height = "75" src="/application/public/img/pay/litekassa.png" alt="" /></a>
-						  <a target="blank" class="mb-3" href="https://anypay.io/"> <img style="padding: 10px;" width = "180" height = "65" src="/application/public/img/pay/anypay.jpg" alt="" /></a>
-						  <a target="blank" class="mb-3" href="https://yoomoney.ru/"> <img style="padding: 10px;" width = "180" height = "85" src="/application/public/img/pay/yandexmoney.jpg" alt="" /></a>
-						</div>
-						</center>
-                     </div>
-                  </div>
-               </div>
-            </div>
 		</div>
 	</div>
 </div>
@@ -495,6 +502,33 @@
 	</div>
 </div>
 <?endif;?>
+ <?if($aaio == 1):?>
+     <div class="modal fade" id="aaio" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+         <div class="modal-dialog" role="document">
+             <div class="modal-content">
+                 <div class="modal-header">
+                     <h5 class="modal-title" id="exampleModalLabel">Пополнение баланса</h5>
+                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                         <i aria-hidden="true" class="ki ki-close"></i>
+                     </button>
+                 </div>
+                 <form id="aaio" method="POST" class="form_0" style="padding:0px; margin:0px;">
+                     <div class="modal-body">
+                         <div class="form-group">
+                             <label>Введите сумму</label>
+                             <input class="form-control" id="ammount" name="ammount" placeholder="100">
+                         </div>
+                         <center><p>Появилась проблема? Обратитесь в - <b style="color: red;">Поддержку!</b></p></center>
+                     </div>
+                     <div class="modal-footer">
+                         <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Отмена</button>
+                         <button type="submit" class="btn btn-primary font-weight-bold">Пополнить</button>
+                     </div>
+                 </form>
+             </div>
+         </div>
+     </div>
+ <?endif;?>
 <?if($yandexkassa == 1):?>	
 <script>
 	$('#yandexkassa').ajaxForm({ 
@@ -711,4 +745,28 @@
 	});
 </script>
 <?endif;?>
+ <?if($aaio == 1):?>
+     <script>
+         $('#aaio').ajaxForm({
+             url: '/account/pay/aaio',
+             dataType: 'text',
+             success: function(data) {
+                 console.log(data);
+                 data = $.parseJSON(data);
+                 switch(data.status) {
+                     case 'error':
+                         toastr.error(data.error);
+                         $('button[type=submit]').prop('disabled', false);
+                         break;
+                     case 'success':
+                         redirect(data.url);
+                         break;
+                 }
+             },
+             beforeSubmit: function(arr, $form, options) {
+                 $('button[type=submit]').prop('disabled', true);
+             }
+         });
+     </script>
+ <?endif;?>
 <?echo $footer?>

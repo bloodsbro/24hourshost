@@ -22,6 +22,8 @@ class payController extends Controller {
 		$interkassa = $this->config->interkassa;
         $yandexkassa = $this->config->yandexkassa;
 		$qiwi = $this->config->qiwi;
+		$aaio = $this->config->aaio;
+
 		$this->data['unitpay'] = $unitpay;
 		$this->data['enotpay'] = $enotpay;
 		$this->data['anypay'] = $anypay;
@@ -31,6 +33,7 @@ class payController extends Controller {
 		$this->data['interkassa'] = $interkassa;
         $this->data['yandexkassa'] = $yandexkassa;
 		$this->data['qiwi'] = $qiwi;
+		$this->data['aaio'] = $aaio;
 		$this->getChild(array('common/header', 'common/footer'));
 		return $this->load->view('account/pay', $this->data);
 	}
@@ -295,13 +298,16 @@ class payController extends Controller {
 					);
 					$invid = $this->invoicesModel->createInvoice($invoiceData);
 					
-					$signature = md5("$login:$ammount:$password1:$invid");
+					$signature = md5("$login:$ammount:$password1:RUB:$invid");
 					
 					$url = "$server";
 					/* Параметры: */
 					$url .= "?m=$login";
 					$url .= "&oa=$ammount";
 					$url .= "&o=$invid";
+					$url .= "&currency=RUB";
+					$url .= "&em=" . $this->user->getEmail();
+					$url .= "&lang=ru";
 					$url .= "&s=$signature";
 					$url .= "&us_desc=Оплата счета ".$invid;
 
@@ -488,29 +494,29 @@ class payController extends Controller {
 		}
 		return json_encode($this->data);
 	}
-	
+
 	public function qiwi() {
-		if(!$this->user->isLogged()) {  
-	  		$this->data['status'] = "error";
+		if(!$this->user->isLogged()) {
+			$this->data['status'] = "error";
 			$this->data['error'] = "Вы не авторизированы!";
 			return json_encode($this->data);
 		}
 		if($this->user->getAccessLevel() < 1) {
-	  		$this->data['status'] = "error";
+			$this->data['status'] = "error";
 			$this->data['error'] = "У вас нет доступа к данному разделу!";
 			return json_encode($this->data);
 		}
-		
+
 		$this->load->model('invoices');
-		
+
 		if($this->request->server['REQUEST_METHOD'] == 'POST') {
 			if($this->config->qiwi == 1) {
 				$errorPOST = $this->validatePOST();
 				if(!$errorPOST) {
 					$ammount = @$this->request->post['ammount'];
-					
+
 					$userid = $this->user->getId();
-					
+
 					$invoiceData = array(
 						'user_id'			=> $userid,
 						'invoice_ammount'	=> $ammount,
@@ -518,7 +524,7 @@ class payController extends Controller {
 						'system'	        => "Qiwi Kassa"
 					);
 					$invid = $this->invoicesModel->createInvoice($invoiceData);
-					
+
 					$params['publicKey'] = $this->config->qiwipublickey;
 					$params['amount'] = number_format(round(floatval($ammount), 2, PHP_ROUND_HALF_DOWN), 2, '.', '');
 					$params['billId'] = $invid;
@@ -544,6 +550,62 @@ class payController extends Controller {
 
 		return json_encode($this->data);
 	}
+
+	public function aaio() {
+		if(!$this->user->isLogged()) {
+			$this->data['status'] = "error";
+			$this->data['error'] = "Вы не авторизированы!";
+			return json_encode($this->data);
+		}
+		if($this->user->getAccessLevel() < 1) {
+			$this->data['status'] = "error";
+			$this->data['error'] = "У вас нет доступа к данному разделу!";
+			return json_encode($this->data);
+		}
+
+		$this->load->model('invoices');
+
+		if($this->request->server['REQUEST_METHOD'] == 'POST') {
+			if($this->config->aaio == 1) {
+				$errorPOST = $this->validatePOST();
+				if(!$errorPOST) {
+					$ammount = @$this->request->post['ammount'];
+
+					$userid = $this->user->getId();
+
+					$invoiceData = array(
+						'user_id'			=> $userid,
+						'invoice_ammount'	=> $ammount,
+						'invoice_status'	=> 0,
+						'system'	        => "Aaio"
+					);
+					$invid = $this->invoicesModel->createInvoice($invoiceData);
+
+					$amount = number_format(round(floatval($ammount), 2, PHP_ROUND_HALF_DOWN), 2, '.', '');
+					$params['merchant_id'] = $this->config->aaio_login;
+					$params['amount'] = $amount;
+					$params['currency'] = 'RUB';
+					$params['order_id'] = $invid;
+					$params['sign'] = hash('sha256', implode(':', [$this->config->aaio_login, $amount, 'RUB', $this->config->aaio_password1, $invid]));
+					$params['desc'] = "Оплата счета ".$invid;
+					$params['lang'] = "ru";
+					$params['email'] = $this->user->getEmail();
+					$params['referral'] = 'ximelie';
+
+					$this->data['status'] = "success";
+					$this->data['url'] = "https://aaio.io/merchant/pay?".http_build_query($params, '', '&', PHP_QUERY_RFC3986);
+				} else {
+					$this->data['status'] = "error";
+					$this->data['error'] = $errorPOST;
+				}
+			} else {
+				$this->data['status'] = "error";
+				$this->data['error'] = "Данная платежная система отключена!";
+			}
+		}
+
+		return json_encode($this->data);
+	}
 	
 	private function validatePOST() {
 	
@@ -557,7 +619,7 @@ class payController extends Controller {
 		if(!$validateLib->money($ammount)) {
 			$result = "Укажите сумму пополнения в допустимом формате!";
 		}
-		elseif(10 > $ammount || $ammount > 5000) {
+		elseif(10 > $ammount || $ammount > 10000) {
 			$result = "Укажите сумму от 10 до 5000 рублей!";
 		}
 		return $result;
