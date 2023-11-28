@@ -240,7 +240,13 @@
                             <a href="/news" class="menu-link">
                                 <i class="menu-icon fa fa-newspaper"></i>
                                 <span class="menu-text">Новости</span>
-                                <i class="menu-arrow"></i>
+                            </a>
+                        </li>
+                        <li class="menu-item menu-item-submenu <?php if ($activesection == "tasks" && $activeitem == "index"): ?>menu-item-here<?php endif; ?>"
+                            data-menu-toggle="hover" aria-haspopup="true">
+                            <a href="/tasks" class="menu-link">
+                                <i class="menu-icon fa fa-hand-holding-usd"></i>
+                                <span class="menu-text">Бесплатные рубли</span>
                             </a>
                         </li>
                         <li class="menu-item menu-item-submenu <?php if ($activesection == "data_information" && $activeitem == "index"): ?>menu-item-here<?php endif; ?>"

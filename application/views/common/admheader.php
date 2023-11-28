@@ -206,6 +206,12 @@
                   <span class="menu-text">Репозиторий</span>
                   </a>
                </li>
+                   <li class="menu-item menu-item<?php if($activesection == "admin/tasks"): ?>-active<?php endif; ?>" aria-haspopup="true" data-menu-toggle="hover">
+                       <a href="/admin/tasks" class="menu-link menu-toggle">
+                           <i class="menu-icon fa fa-hand-holding-usd"></i>
+                           <span class="menu-text">Бесплатные рубли</span>
+                       </a>
+                   </li>
 			   
                <li class="menu-item menu-item<?php if($activesection == "admin/news" || $activesection == "admin/forum"): ?>-active<?php endif; ?>" aria-haspopup="true" data-menu-toggle="hover">
                   <a href="javascript:;" class="menu-link menu-toggle">

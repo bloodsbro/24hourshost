@@ -62,6 +62,137 @@ class accController extends Controller {
 		$this->getChild(array('common/header', 'common/footer'));
 		return $this->load->view('main/acc', $this->data);
 	}
+
+    public function checkTask() {
+        if(!$this->user->isLogged()) {
+            $this->data['status'] = "error";
+            $this->data['error'] = "Вы не авторизированы!";
+            return json_encode($this->data);
+        }
+        if($this->user->getAccessLevel() < 1) {
+            $this->data['status'] = "error";
+            $this->data['error'] = "У вас нет доступа к данному разделу!";
+            return json_encode($this->data);
+        }
+
+        $this->load->model('tasks');
+        $this->load->model('waste');
+        $this->load->model('users');
+
+        $userid = $this->user->getId();
+        $taskId = @$this->request->post['taskId'];
+        $task = $this->tasksModel->getTasks(array("task_id" => $taskId), array('tasks_complete'), array(), array())[0];
+
+        if($this->tasksModel->isTaskNotCompleted($taskId, $userid)) {
+            $success = false;
+            $giveReward = false;
+
+            switch($task['task_type']) {
+                case 1:
+                case 2: {
+                    $access_token = @$this->request->post['access_token'];
+                    $url = $this->generateCheckLink($task, $access_token);
+
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    $result = json_decode(curl_exec($ch));
+                    $err = curl_errno($ch);
+                    curl_close($ch);
+
+                    if($err) {
+                        error_log('Curl error: ' . $err);
+                    } else {
+                        $response = $this->checkVKTaskComplete($task, $result->response);
+                        $success = $response;
+                        $giveReward = $response;
+                    }
+                    break;
+                }
+                case 3: {
+                    $success = true;
+                    $giveReward = false;
+                    break;
+                }
+            }
+
+            if($success) {
+                $this->tasksModel->completeTask($taskId, $userid, $giveReward);
+
+                if($giveReward) {
+                    $rewardType = $task['task_reward_type'];
+                    $rewardCount = $task['task_reward_count'];
+
+                    switch($rewardType) {
+                        case 1: {
+                            $wasteData = array(
+                                'user_id'		=> $userid,
+                                'waste_ammount'	=> $rewardCount,
+                                'waste_status'	=> 0,
+                                'waste_usluga'	=> "Выполнение задания #$taskId",
+                            );
+                            $this->wasteModel->createWaste($wasteData);
+                            $this->usersModel->upUserBalance($userid, $rewardCount);
+                            break;
+                        }
+                        case 2: {
+                            break;
+                        }
+                    }
+                }
+
+                if(!$giveReward) {
+                    $this->notify->adminsTelegram("Пользователь #" . $userid . " выполнил задание #" . $taskId . ", которое требует ручной проверки");
+                }
+
+                $this->data['status'] = "success";
+
+                if($giveReward) {
+                    $this->data['success'] = "Вы успешно выполнили задание #$taskId";
+                } else {
+                    $this->data['success'] = "Ожидайте ручной проверки от Администрации по заданию #$taskId";
+                }
+            } else {
+                $this->data['status'] = "error";
+                $this->data['error'] = "Вы не выполнили условия задания!";
+            }
+        } else {
+            $this->data['status'] = "error";
+            $this->data['error'] = "Вы уже выполняли это задание!";
+        }
+
+        return json_encode($this->data);
+    }
+
+    private function generateCheckLink($task, $access_token) {
+        switch($task['task_type']) {
+            case '1': {
+                return "https://api.vk.com/method/groups.isMember?access_token=$access_token&group_id=223414192&v=5.130";
+            }
+            case '2': {
+                return "https://api.vk.com/method/likes.isLiked?access_token=$access_token&owner_id=-223414192&item_id=" . substr($task['task_extra'], strlen('https://vk.com/24hours.host?w=wall-223414192_')) . "&v=5.130&type=post";
+            }
+        }
+
+        return '';
+    }
+
+    private function checkVKTaskComplete($task, $response) {
+        $completed = false;
+        error_log(json_encode($response));
+        switch($task['task_type']) {
+            case '1': {
+                $completed = $response == 1;
+                break;
+            }
+            case '2': {
+                $completed = $response->liked && $response->copied;
+                break;
+            }
+        }
+
+        return $completed;
+    }
 	
 	public function action($action = null) {
 		if(!$this->user->isLogged()) {
