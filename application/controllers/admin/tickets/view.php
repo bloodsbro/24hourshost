@@ -92,7 +92,8 @@ class viewController extends Controller {
 		switch($action) {
 			case 'closed': {
 				$this->ticketsModel->updateTicket($ticketid, array('ticket_status' => 0));
-					
+                $this->notify->adminsTelegram("Администратор " . $this->user->getFirstname() . " " . $this->user->getLastname() . " [#" . $this->user->getId() . "] закрыл тикет #" . $ticketid);
+
 					$this->data['status'] = "success";
 					$this->data['success'] = "Вы успешно закрыли запрос!";
 				break;

@@ -5,7 +5,8 @@ class footerController extends Controller {
 		$this->data['description'] = $this->config->description;
 		$this->data['public'] = $this->config->public;
 		$this->data['requestTime'] = REQUEST_START_TIME;
-		
+		$this->data['vk_id'] = $this->config->vk_id;
+
 		return $this->load->view('common/footer', $this->data);
 	}
 	
@@ -27,38 +28,14 @@ class footerController extends Controller {
 
 		switch($action) {
 			case 'online': {				
-				$LastTime = time() - 7200;
-
-				$online = 0;
-				foreach($this->usersModel->getUsers() as $line) {
-					if ($line['user_online_date'] > $LastTime) {
-					  $online++;
-					}
-				}
-
 				$this->usersModel->updateUser($userid, array('user_online_date'=> time()));
 				$this->data['status'] = "online";
-				$this->data['online'] = "USERID ".$userid." ".$this->user->getFirstname()." UPD-DATE ".date("Y-m-d H:i:s")." | ".$LastTime." LVL ".$this->user->getAccessLevel()." ST.OK";
-				$this->data['online_usr'] = $online;
+				$this->data['online'] = "USERID ".$userid." ".$this->user->getFirstname()." UPD-DATE ".date("Y-m-d H:i:s")." | LVL ".$this->user->getAccessLevel()." ST.OK";
+				$this->data['online_usr'] = $this->usersModel->getOnlineUsers();
 				break;
-			}	
-			case 'online_sup': {				
-				$LastTime = time() - 7200;
-
-				$online_sup = 0;
-				foreach($this->usersModel->getUsers() as $line) {
-					if($line['user_access_level'] > 1) {
-						if ($line['user_online_date'] > $LastTime) {
-						  $online_sup++;
-						}
-					}
-				}
-
-				if($online_sup > 0) {
-					$this->data['sup_status'] = "Online";
-				} else {
-					$this->data['sup_status'] = "Offline";
-				}
+			}
+			case 'online_sup': {
+				$this->data['sup_status'] = $this->usersModel->getOnlineAdmins() > 0 ? "Online" : "Offline";
 				break;
 			}				
 			default: {

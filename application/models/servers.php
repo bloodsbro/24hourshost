@@ -31,7 +31,7 @@ class serversModel extends Model {
             $sql .= "server_date_end = NOW() + INTERVAL " . (int)$data['server_days'] . " DAY";
 		} 
 		elseif($data['test_periud'] == true) {
-			$sql .= "`server_date_end` = NOW() + INTERVAL 1 DAY";
+			$sql .= "`server_date_end` = NOW() + INTERVAL 7 DAY";
 			$this->db->query("UPDATE `users` SET `test_server` = '2' WHERE `user_id` = '{$this->user->getId()}'");
 		}
 		$this->db->query($sql);
@@ -213,9 +213,9 @@ class serversModel extends Model {
 		if($ssd) {
 			$output['ssd'] = $ssd;
 		}	
-		$output['ram'] = $ram;
-		$output['cpu'] = $cpu;
-		$output['ssd'] = $output['ssd'];
+		$output['ram'] = rtrim($ram, '%');
+		$output['cpu'] = rtrim($cpu, '%');
+		$output['ssd'] = trim($output['ssd']);
 		$ssh2Lib->disconnect($link);
 		return $output;
 	}
@@ -733,7 +733,7 @@ class serversModel extends Model {
 					if($corebinary == '7.0' || $corebinary == '7.2' || $corebinary == '7.3' || $corebinary == 'Java') {
 						$ssh2Lib->execute($link, 'cp -Rp /home/binaries/' . $this->gameBin($serverId) . '* /home/gs' . $serverId . '/');
 					}
-				} else if($server['game_code'] == 'cs') {
+				} else if($server['game_code'] == 'cs' || $server['game_code'] == 'samp' || $server['game_code'] == 'crmp') {
 					$this->updateServer($serverId, array('server_binary' => $this->game_settings->builds[$server['game_code']]['latest_build']['buildpath']));
 					$ssh2Lib->execute($link, 'cp -Rp /home/cp/gameservers/cores/' . $server['game_code'] . '/' . $this->game_settings->builds[$server['game_code']]['latest_build']['buildpath'] . '/* /home/gs' . $serverId . '/');
 				} else {
@@ -763,7 +763,7 @@ class serversModel extends Model {
 					if($server['server_binary_version'] == '7.0' || $server['server_binary_version'] == '7.2' || $server['server_binary_version'] == '7.3' || $server['server_binary_version'] == 'Java') {
 						$ssh2Lib->execute($link, 'cp -Rp /home/binaries/' . $this->gameBin($serverId) . '* /home/gs' . $serverId . '/');
 					}	
-				} else if($server['game_code'] == 'cs') {
+				} else if($server['game_code'] == 'cs' || $server['game_code'] == 'samp' || $server['game_code'] == 'crmp') {
 					$this->updateServer($serverId, array('server_binary' => $this->game_settings->builds[$server['game_code']]['latest_build']['buildpath']));
 					$ssh2Lib->execute($link, 'cp -Rp /home/cp/gameservers/cores/' . $server['game_code'] . '/' . $this->game_settings->builds[$server['game_code']]['latest_build']['buildpath'] . '/* /home/gs' . $serverId . '/');
 				} else {

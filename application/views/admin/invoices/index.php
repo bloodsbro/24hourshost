@@ -13,7 +13,7 @@
 							<h3 class="card-title"> <span class="card-icon">
 								<a href="javascript:;" class="badge badge-secondary" data-toggle="tooltip" data-placement="right" title="" data-original-title="ID"><?php echo $item['invoice_id'] ?>
 								</a>
-								</span><a href="/admin/users/edit/index/<?php echo $item['user_id'] ?>" class="text-dark"><?php echo $item['user_firstname'] ?> <?php echo $item['user_lastname'] ?></a><small class="text-muted font-size-sm ml-2"><?php echo $item['invoice_ammount'] ?> RUB.</small>
+								</span><a href="/admin/users/edit/index/<?php echo $item['user_id'] ?>" class="text-light"><?php echo $item['user_firstname'] ?> <?php echo $item['user_lastname'] ?></a><small class="text-muted font-size-sm ml-2"><?php echo $item['invoice_ammount'] ?> RUB.</small>
 							</h3>
 							<div class="card-toolbar">
 								<span class="badge badge-primary mr-2" data-toggle="tooltip" data-placement="right" title="" data-original-title="Платежная система"><?php echo $item['system'] ?></span>

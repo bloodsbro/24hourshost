@@ -103,9 +103,9 @@ class createController extends Controller {
 		elseif(mb_strlen($text) < 10 || mb_strlen($text) > 10000) {
 			$result = "Текст тикета должен содержать от 10 до 350 символов!";
 		}
-		elseif (3 <= $this->ticketsModel->dateCreateInfo($userid)) {
+		/*elseif (3 <= $this->ticketsModel->dateCreateInfo($userid)) {
 			$result = 'Нельзя создать тикет, так как за сегодня вы создали больше 3 тикетов.';
-		}	
+		}*/
 		if(!$recaptcha) return 'Подтвердите, что вы не робот!';
 		$url = 'https://www.google.com/recaptcha/api/siteverify';			
 		$data = array('secret' => $this->config->secret_recaptcha, 'response' => $recaptcha);

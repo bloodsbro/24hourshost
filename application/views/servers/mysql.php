@@ -35,7 +35,7 @@
 							<div class="navi navi-hover navi-active navi-link-rounded navi-bold navi-icon-center navi-light-icon">
 								<?if($server['server_mysql'] == 1):?>
 								<div class="navi-item my-2">
-									<a href="http://<?php echo $server['location_ip'] ?>" target="_blank" class="navi-link">
+									<a href="https://pma.24hours.host/" target="_blank" class="navi-link">
 									<span class="navi-icon mr-3">
 									<span class="svg-icon svg-icon-lg">
 									<i class="fa fa-user-circle"></i>
@@ -84,10 +84,17 @@
 				<div class="col-xl-9">
 					<div class="row">
 						<?if($server['server_mysql'] == 1):?>
+                            <div class="col-xl-12">
+                                <div class="card card-custom mb-3">
+                                    <div class="card-header border-0">
+                                        <h3 class="card-title">PMA локация<small class="text-muted font-size-sm ml-2"><?php echo $server['location_name'] ?></small></h3>
+                                    </div>
+                                </div>
+                            </div>
 						<div class="col-xl-12">
 							<div class="card card-custom mb-3">
 								<div class="card-header border-0">
-									<h3 class="card-title">MySQL Хост для локального подключения<small class="text-muted font-size-sm ml-2">127.0.0.1</small></h3>
+									<h3 class="card-title">MySQL Хост для подключения<small class="text-muted font-size-sm ml-2"><?php echo $server['location_ip'] ?></small></h3>
 								</div>
 							</div>
 						</div>

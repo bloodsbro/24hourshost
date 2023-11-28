@@ -56,7 +56,7 @@
 								<input type="hidden" name="ref" id="ref" value="<?echo $_GET['ref']?>">
 								<div class="g-recaptcha" data-sitekey="<?php echo $recaptcha ?>" id="recaptcha1"></div>
 								<div class="form-check mb-3">
-									<label class="form-check-label" for="exampleCheck1"><center>Нажимая кнопку “Регистрация” вы автоматически соглашаетесь с <a target="_blank" href="/ru/oferta.html"><b>Условиями использования</b></center></a></label>
+									<label class="form-check-label" for="exampleCheck1"><center>Нажимая кнопку “Регистрация” вы автоматически соглашаетесь с <a target="_blank" href="https://24hours.host/oferta"><b>Условиями использования</b></center></a></label>
 								</div>
 								<button class="btn btn-lg btn-primary btn-block" type="submit">Зарегистрироваться</button>
 								<div class="other-link"><a href="/account/login">Уже зарегистрированы?</a></div>
@@ -93,10 +93,10 @@
 				  <div class="collapse navbar-collapse" id="navbarNav">
 					<ul class="navbar-nav">
 					  <li class="nav-item active">
-						<a class="nav-link" href="/ru/privacy.html">Политика Конфиденциальности <span class="sr-only">(current)</span></a>
+						<a class="nav-link" href="https://24hours.host/privacy">Политика Конфиденциальности <span class="sr-only">(current)</span></a>
 					  </li>
 					  <li class="nav-item">
-						<a class="nav-link" href="https://vk.com/public<?php echo $public ?>">Сообщество VK</a>
+						<a class="nav-link" href="https://t.me/HoursHost_RU">Сообщество TG</a>
 					  </li>
 					</ul>
 				  </div>
@@ -239,7 +239,7 @@
 </script>
 <!-------------------------------------------------------------------------------------------->
 <script src="/ru/login/cookie.js"></script>
-<script src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
+<script async src="//vk.com/js/api/openapi.js" type="text/javascript"></script>
 <!-------------------------------------------------------------------------------------------->
 <script>
    VK.init({
@@ -279,7 +279,7 @@ document.oncontextmenu = cmenu; function cmenu() { return false; }
     data-fg="#FFFFFF"
     data-link="#F1D600"
     data-message="При использовании сайта 24HoursHost Вы соглашаетесь с нашей политикой файлов cookie!"
-    data-moreinfo="/ru/privacy.html"
+    data-moreinfo="https://24hours.host/oferta"
     data-linkmsg="Соглашение"
     data-close-text="Я понял!">
 </script> -->

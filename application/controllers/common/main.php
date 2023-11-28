@@ -17,6 +17,7 @@ if($this->user->isLogged()) {
 	$this->data['user_balance'] = $this->user->getBalance();
 	$this->data['user_access_level'] = $this->user->getAccessLevel();
 	$this->data['user_img'] = $this->user->getUser_img();
+	$this->data['user_tg'] = $this->user->getTg();
 } else {
 	$this->data['logged'] = false;
 	$this->data['user_access_level'] = 0;

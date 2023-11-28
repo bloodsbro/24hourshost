@@ -137,7 +137,7 @@ class orderController extends Controller {
 						$price = $price * $kofficent;
 					}
 					
-					if($test_periud == false || ($this->config->serv_test == 1 && $test_server)) {
+					if($test_periud == false || ($this->config->serv_test == 1 && $test_server == 1)) {
 						if($balance >= $price) {
 							$serverData = array(
 								'user_id'			=> $userid,
@@ -159,7 +159,7 @@ class orderController extends Controller {
 							  'user_id'			=> $userid,
 							  'waste_ammount'	=> $price,
 							  'waste_status'	=> 1,
-							  'waste_usluga'	=> "Заказ " . $test_periud ? 'тестового ' : '' . "сервера #$serverid"
+							  'waste_usluga'	=> "Заказ " . ($test_periud ? 'тестового ' : '') . "сервера #$serverid"
 							); 
 							$this->wasteModel->createWaste($wasteData);
 							

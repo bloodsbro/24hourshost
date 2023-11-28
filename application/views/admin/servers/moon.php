@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="d-flex flex-column flex-grow-1">
                                     <a href="/admin/servers"
-                                       class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Module
+                                       class="text-dark-25 text-hover-primary mb-1 font-size-lg font-weight-bolder">Module
                                         - LITE</a>
                                     <div class="d-flex">
                                         <div class="d-flex align-items-center pr-5">

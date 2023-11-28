@@ -24,7 +24,7 @@
                            </span>
                         </div>
                         <div class="d-flex flex-column flex-grow-1">
-                           <a href="javascript:;" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder"><?echo $new['news_title']?></a>
+                           <a href="javascript:;" class="text-dark-25 text-hover-primary mb-1 font-size-lg font-weight-bolder"><?echo $new['news_title']?></a>
                            <div class="d-flex">
                               <div class="d-flex align-items-center" data-toggle="tooltip" title="" data-placement="right" data-original-title="Просмотров">
                                  <span class="svg-icon svg-icon-md svg-icon-primary pr-1">

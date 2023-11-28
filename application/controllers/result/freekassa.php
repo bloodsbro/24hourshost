@@ -35,11 +35,15 @@ class freekassaController extends Controller {
 				$this->usersModel->upUserBonuses($userid, $getbonus);
 				
 				$this->invoicesModel->updateInvoice($invid, array('invoice_status' => 1));
-				return "OK$invid\n";
+
+				http_response_code(200);
+				return "YES";
 			} else {
+				http_response_code(403);
 				return "Error: $errorPOST";
 			}
 		} else {
+			http_response_code(403);
 			return "Error: Invalid request!";
 		}
 	}

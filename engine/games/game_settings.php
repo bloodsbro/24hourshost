@@ -47,7 +47,30 @@ $game_settings = array(
 		'5787' => array('buildpath' => '5787', 'text_name' => 'Build 5787'),
 		'ReHLDS' => array('buildpath' => 'ReHLDS', 'text_name' => 'ReHLDS'),
 		'latest_build' => array('buildpath' => 'steam', 'text_name' => 'Steam [Чистый сервер]')
-	)
+	),
+    'samp' => array(
+        '03dr2' => array('buildpath' => '03dR2', 'text_name' => 'SA:MP 03d R2'),
+        '03x' => array('buildpath' => '03x', 'text_name' => 'SA:MP 03x'),
+        '03xr2' => array('buildpath' => '03xR2', 'text_name' => 'SA:MP 03x R2'),
+        '03e' => array('buildpath' => '03e', 'text_name' => 'SA:MP 03e'),
+        '03er2' => array('buildpath' => '03eR2', 'text_name' => 'SA:MP 03e R2'),
+        '03z' => array('buildpath' => '03z', 'text_name' => 'SA:MP 03z'),
+        '03zr1' => array('buildpath' => '03zR1', 'text_name' => 'SA:MP 03z R1'),
+        '03zr2' => array('buildpath' => '03zR2', 'text_name' => 'SA:MP 03z R2'),
+        '03zr3' => array('buildpath' => '03zR3', 'text_name' => 'SA:MP 03z R3'),
+        '03zr4' => array('buildpath' => '03zR4', 'text_name' => 'SA:MP 03z R4'),
+        '03dlr1' => array('buildpath' => '03dlR1', 'text_name' => 'SA:MP 03DL R1'),
+        '037' => array('buildpath' => '037', 'text_name' => 'SA:MP 037'),
+        'latest_build' => array('buildpath' => '037R2', 'text_name' => 'SA:MP 0.3.7 R2')
+	),
+	'crmp' => array(
+        '03e' => array('buildpath' => '03e', 'text_name' => 'CR:MP 03e'),
+        'latest_build' => array('buildpath' => '037', 'text_name' => 'CR:MP 0.3.7')
+	),
+	'mta' => array(
+        '159' => array('buildpath' => '159', 'text_name' => 'MTA 1.5.9'),
+        'latest_build' => array('buildpath' => '16', 'text_name' => 'MTA 1.6.0')
+    )
 ),
 'node_modules' => array(
 	'ragemp' => array(

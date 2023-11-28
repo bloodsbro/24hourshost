@@ -12,6 +12,7 @@ class User {
     private $user_img;
 	private $test_server;
 	private $user_vk_id;
+	private $user_tg;
 	
   	public function __construct($registry) {
 		$this->registry = $registry;
@@ -27,7 +28,8 @@ class User {
 				$this->user_img = $query->row['user_img'];
 				$this->test_server = $query->row['test_server'];
 				$this->user_vk_id = $query->row['user_vk_id'];
-				
+				$this->user_tg = $query->row['user_tg'];
+
 				$this->registry->db->query("UPDATE `users_auth` SET `user_ip` = '" . $this->registry->db->escape($this->getRealIpAdress()) . "', `user_last_activity` = NOW() WHERE `auth_key` = '" . @$this->registry->db->escape($this->registry->cookie->data['uid']) . "'");
 			} else {
 				$this->logout();
@@ -35,10 +37,19 @@ class User {
 		}
   	}
 	
-  	public function login($email, $password) {
-		$query = $this->registry->db->query("SELECT * FROM users WHERE user_email = '" . $this->registry->db->escape($email) . "' AND user_password = '" . $this->registry->db->escape($password) . "' AND user_status = '1'");
+  	public function login($email, $password, $field = "user_password", int $totp = 0) {
+		$query = $this->registry->db->query("SELECT * FROM users WHERE " . ($field === "password" ? "user_email = '" . $this->registry->db->escape($email) . "' AND " : "") . $field . " = '" . $this->registry->db->escape($password) . "' AND user_status = '1'");
 
 		if($query->num_rows) {
+			if($query->row['user_totp'] && $field === "user_password") {
+				require_once(ENGINE_DIR . "/libs/totp.php");
+
+				$valid = TOTP::getOTP($query->row['user_totp']);
+				if(@$valid['err'] || ((int) @$valid['otp'] !== (int)$totp)) {
+					return false;
+				}
+			}
+
 			$key = sha1(mt_rand(11111, 99999) . $this->GenerateHash(mt_rand(50, 200)) . microtime()) . sha1(mt_rand(11111, 99999) . $this->GenerateHash(mt_rand(50, 200)) . $query->row['user_password']) . sha1(mt_rand(11111, 99999) . $this->GenerateHash(mt_rand(50, 200)) . $query->row['user_email']) . sha1(mt_rand(11111, 99999) . $this->GenerateHash(mt_rand(50, 200)) . $query->row['user_id']);
 			$this->registry->cookie->set('uid', $key);
 					
@@ -49,8 +60,11 @@ class User {
 			$this->balance = $query->row['user_balance'];
 			$this->access_level = $query->row['user_access_level'];
 			$this->user_img = $query->row['user_img'];	
-			$this->test_server = $query->row['test_server'];	
-			$this->registry->db->query("INSERT INTO `users_auth` SET `user_id` = '" . $query->row['user_id'] . "', `user_ip` = '" . $this->registry->db->escape($this->getRealIpAdress()) . "', `user_last_activity` = NOW(), `auth_user_email` = '" . $this->registry->db->escape($query->row['user_email']) . "', `auth_user_password` = '" . $this->registry->db->escape($query->row['user_password']) . "', `auth_key` = '" . $this->registry->db->escape($key) . "', `auth_type` = 'Password', `auth_date_add` = NOW()");		
+			$this->test_server = $query->row['test_server'];
+			$this->user_tg = $query->row['user_tg'];
+			$this->registry->db->query("INSERT INTO `users_auth` SET `user_id` = '" . $query->row['user_id'] . "', `user_ip` = '" . $this->registry->db->escape($this->getRealIpAdress()) . "', `user_last_activity` = NOW(), `auth_user_email` = '" . $this->registry->db->escape($query->row['user_email']) . "', `auth_user_password` = '" . $this->registry->db->escape($query->row['user_password']) . "', `auth_key` = '" . $this->registry->db->escape($key) . "', `auth_type` = 'Password', `auth_date_add` = NOW()");
+
+			$this->registry->notify->user($this->user_id, "Новая авторизация в Ваш аккаунт " . $this->firstname . " " . $this->lastname . " [#" . $this->user_id . "]");
 	  		return true;
 		} else {
 	  		return false;
@@ -70,7 +84,8 @@ class User {
 			$this->balance = $query->row['user_balance'];
 			$this->access_level = $query->row['user_access_level'];
 			$this->user_img = $query->row['user_img'];	
-			$this->test_server = $query->row['test_server'];	
+			$this->test_server = $query->row['test_server'];
+			$this->user_tg = $query->row['user_tg'];
 			$this->registry->db->query("INSERT INTO `users_auth` SET `user_id` = '" . $query->row['user_id'] . "', `user_ip` = '" . $this->registry->db->escape($this->getRealIpAdress()) . "', `user_last_activity` = NOW(), `auth_user_email` = '" . $this->registry->db->escape($query->row['user_email']) . "', `auth_user_password` = '" . $this->registry->db->escape($query->row['user_password']) . "', `auth_key` = '" . $this->registry->db->escape($key) . "', `auth_type` = 'Vk', `auth_date_add` = NOW()");		
 	  		return true;
 		} else {
@@ -105,6 +120,7 @@ class User {
 		$this->balance = null;
 		$this->access_level = 0;
 		$this->user_vk_id = null;
+		$this->user_tg = 0;
   	}
   
   	public function getId() {
@@ -123,7 +139,11 @@ class User {
   	}
 	public function getUser_img() {
 		return $this->user_img;
-  	}
+	}
+
+	public function getTg() {
+		return $this->user_tg;
+	}
   	public function getBalance() {
 		return $this->balance;
   	}

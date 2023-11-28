@@ -15,7 +15,7 @@
 								</span>
 							</div>
 							<div class="d-flex flex-column flex-grow-1">
-								<a href="javascript:;" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder"><?php echo $mail['user_firstname'] ?> <?php echo $mail['user_lastname'] ?> <small><?php echo $mail['user_email'] ?></small></a>
+								<a href="javascript:;" class="text-dark-25 text-hover-primary mb-1 font-size-lg font-weight-bolder"><?php echo $mail['user_firstname'] ?> <?php echo $mail['user_lastname'] ?> <small><?php echo $mail['user_email'] ?></small></a>
 								<span class="text-muted font-weight-bold"><?php echo $mail['text'] ?></span>
 							</div>
 							<span class="text-muted font-weight-normal font-size-sm"><?php echo $mail['inbox_date_add']?></span>

@@ -48,7 +48,7 @@ class controlController extends Controller {
 			$this->load->library('ssh2');
 				
 			$ssh = new ssh2Library();
-			$connect = $ssh->connect($server['location_ip'], $server['location_user'], $pass = $server['location_port']);
+			$connect = $ssh->connect($server['location_ip'], $server['location_user'], $server['location_port']);
 			$output = $ssh->execute($connect, "cd /home/gs".$server['server_id']."/cstrike/maps/; ls | grep .bsp;");
 			$disconnect = $ssh->disconnect($connect);
 			$data = $output . $disconnect;
@@ -69,10 +69,10 @@ class controlController extends Controller {
 			$cores = @array_reverse(@$this->game_settings->cores[$server['game_code']]);
 			$this->data["cores"] = $cores;	
 			$no_core = @array_reverse(@$this->game_settings->cores[$server['game_code']]['latest_core']);
-			$this->data["no_core"] = $no_core;	
+			$this->data["no_core"] = $no_core;
 		}
 		
-		if($server['game_code'] == "cs") {
+		if($server['game_code'] == "cs" || $server['game_code'] == 'samp' || $server['game_code'] == 'crmp') {
 			$builds = @array_reverse(@$this->game_settings->builds[$server['game_code']]);
 			$this->data["builds"] = $builds;	
 			$no_build = @array_reverse(@$this->game_settings->builds[$server['game_code']]['latest_build']);
@@ -436,9 +436,9 @@ class controlController extends Controller {
 				if($server['server_status'] == 1) {
 					$stats = $this->serversModel->getHDD($server['server_id']);
 					if((int)$stats < $server['game_ssd']) {
-						$this->serversModel->deleteTask(array('task_name' => 'restart', 'server_id' => $serverid));
+						/* $this->serversModel->deleteTask(array('task_name' => 'restart', 'server_id' => $serverid));
 						$this->serversModel->deleteTask(array('task_name' => 'enable', 'server_id' => $serverid));
-						$this->serversModel->deleteTask(array('task_name' => 'disable', 'server_id' => $serverid));
+						$this->serversModel->deleteTask(array('task_name' => 'disable', 'server_id' => $serverid)); */
 						$this->serversModel->updateServer($serverid, array('server_status' => 5, 'server_work' => 1));
 						$logData = array(
 							'server_id'			=> $serverid,
@@ -461,10 +461,16 @@ class controlController extends Controller {
 			
 			case 'unbackup': {
 				if($server['server_status'] == 1) {
-					if (file_exists('ssh2.sftp://'.$server['location_user'].':'.$server['location_password'].'@'.$server['location_ip'].':22/home/cp/backups/gs'.$serverid.'.tar')) {
-						$this->serversModel->deleteTask(array('task_name' => 'restart', 'server_id' => $serverid));
+					$ssh = new ssh2Library();
+					$connect = $ssh->connect($server['location_ip'], $server['location_user'], $server['location_port']);
+					$data = $ssh->execute($connect, "ls /home/cp/backups/gs$serverid.tar");
+					$ssh->disconnect($connect);
+					$data = explode("\n", $data);
+
+					if ($data[0]) {
+						/*$this->serversModel->deleteTask(array('task_name' => 'restart', 'server_id' => $serverid));
 						$this->serversModel->deleteTask(array('task_name' => 'enable', 'server_id' => $serverid));
-						$this->serversModel->deleteTask(array('task_name' => 'disable', 'server_id' => $serverid));
+						$this->serversModel->deleteTask(array('task_name' => 'disable', 'server_id' => $serverid)); */
 						$this->serversModel->updateServer($serverid, array('server_status' => 6, 'server_work' => 1));
 						$logData = array(
 							'server_id'			=> $serverid,
@@ -487,7 +493,13 @@ class controlController extends Controller {
 			
 			case 'delete_backup': {
 				if($server['server_status'] == 1) {
-					if (file_exists('ssh2.sftp://'.$server['location_user'].':'.$server['location_password'].'@'.$server['location_ip'].':22/home/cp/backups/gs'.$serverid.'.tar')) {
+					$ssh = new ssh2Library();
+					$connect = $ssh->connect($server['location_ip'], $server['location_user'], $server['location_port']);
+					$data = $ssh->execute($connect, "ls /home/cp/backups/gs$serverid.tar");
+					$ssh->disconnect($connect);
+					$data = explode("\n", $data);
+
+					if ($data[0]) {
 						$result = $this->serversModel->action($serverid, 'delete_backup');
 						if($result["status"] == "success") {
 							$logData = array(
@@ -867,7 +879,7 @@ class controlController extends Controller {
 
 		if($this->request->server['REQUEST_METHOD'] == 'POST') {
 			if($server['server_status'] == 1){	
-				if($server["game_code"] == "cs") {
+				if($server["game_code"] == "cs" || $server['game_code'] == "samp" || $server['game_code'] == 'crmp') {
 					$build = @$this->request->post['build'];
 					$buildInfo = $this->game_settings->builds[$server['game_code']][$build];
 					if(is_array($buildInfo)) {
@@ -885,7 +897,7 @@ class controlController extends Controller {
 						}
 					} else {
 						$this->data["status"] = "error";
-						$this->data["error"] = "Вы указали неверный билд!";
+						$this->data["error"] = "Вы указали неверный билд $build!";
 					}
 				} else {
 					$this->data["status"] = "error";

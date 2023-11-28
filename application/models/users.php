@@ -16,6 +16,13 @@ class usersModel extends Model {
 		$sql .= "user_activate = '" . (int)$data['user_activate'] . "', ";
 		$sql .= "key_activate = '" . $data['key_activate'] . "', ";
 		$sql .= "user_date_reg = NOW()";
+
+		if($data['extra_rows']) {
+			foreach($data['extra_rows'] as $key => $value) {
+				$sql .= ", $key = '" . $value . "'";
+			}
+		}
+
 		$this->db->query($sql);
 		return $this->db->getLastId();
 	}
@@ -142,11 +149,23 @@ class usersModel extends Model {
 		$query = $this->db->query($sql);
 		return $query->rows;
 	}
-	
+
 	public function getUserById($userid) {
 		$sql = "SELECT * FROM `users` WHERE `user_id` = '" . (int)$userid . "' LIMIT 1";
 		$query = $this->db->query($sql);
 		return $query->row;
+	}
+
+	public function getOnlineUsers() {
+		$sql = "SELECT COUNT(*) AS count FROM `users` WHERE `user_online_date` >= '" . (time() - 7200) . "'";
+		$query = $this->db->query($sql);
+		return $query->row['count'];
+	}
+
+	public function getOnlineAdmins() {
+		$sql = "SELECT COUNT(*) AS count FROM `users` WHERE `user_online_date` >= '" . (time() - 7200) . "' AND user_access_level > 1";
+		$query = $this->db->query($sql);
+		return $query->row['count'];
 	}
 	
 	public function getUserByEmail($useremail) {
@@ -154,7 +173,12 @@ class usersModel extends Model {
 		$query = $this->db->query($sql);
 		return $query->row;
 	}
-	
+
+	public function getUserByOAuthServiceId($field, $user_id) {
+		$sql = "SELECT * FROM `users` WHERE `" . $field . "` = '" . $this->db->escape($user_id) . "' LIMIT 1";
+		$query = $this->db->query($sql);
+		return $query->row;
+	}
 	public function getTotalUsers($data = array()) {
 		$sql = "SELECT COUNT(*) AS count FROM `users`";
 		if(!empty($data)) {
@@ -186,23 +210,36 @@ class usersModel extends Model {
 	public function downUserBalance($userid, $value) {
 	  	$query = $this->db->query("UPDATE `users` SET user_balance = user_balance-" . (float)$value . " WHERE user_id = '" . (int)$userid . "'");
 	}
-	public function createAuthLog($userid, $ip, $status, $password) {
+	public function createAuthLog($userid, $ip, $status, $type = "password") {
 		$ipDetail=array();
 		$f = file_get_contents("http://ip-api.com/xml/".$ip."?lang=ru");
-		 
-		//Получаем название города
-		preg_match("@<city>(.*?)</city>@si", $f, $city);
-		//$ipDetail['city'] = ($city AND $city[2]) ? $city[2] : ''; 
-		 $ipDetail['city'] = $city[1];
-		//Получаем название страны
-		preg_match("@<country>(.*?)</country>@si", $f, $country);
-		$ipDetail['country'] = $country[1];
-		 
-		//Получаем код страны
-		preg_match("@<countryCode>(.*?)</countryCode>@si", $f, $countryCode);
-		$ipDetail['countryCode'] = $countryCode[1];
-		
-	  	$query=$this->db->query("INSERT INTO `authlog` (`id`, `user`, `ip`, `city`, `country`, `code`, `datetime`, `status`, `password`) VALUES (NULL, '".$userid."', '".$ip."', '".$ipDetail['city']."', '".$ipDetail['country']."', '".$ipDetail['countryCode']."', NOW(), '".$status."', '".$password."');");
+
+		preg_match("@<status>(.*?)</status>@si", $f, $response_status);
+		if($response_status[1] === "success") {
+			preg_match("@<city>(.*?)</city>@si", $f, $city);
+			$ipDetail['city'] = $city[1] ?? "N/A";
+			preg_match("@<country>(.*?)</country>@si", $f, $country);
+			$ipDetail['country'] = $country[1] ?? "N/A";
+			preg_match("@<countryCode>(.*?)</countryCode>@si", $f, $countryCode);
+			$ipDetail['countryCode'] = $countryCode[1] ?? "N/A";
+		}
+
+		$city = $ipDetail['city'] ?? "N/A";
+		$country = $ipDetail['country'] ?? "N/A";
+		$countryCode = $ipDetail['countryCode'] ?? "N/A";
+
+		$this->db->query("INSERT INTO `authlog` (`id`, `user`, `ip`, `city`, `country`, `code`, `datetime`, `status`,`system`) VALUES (
+                                                                                                           NULL, 
+                                                                                                           '".$userid."', 
+                                                                                                           '".$ip."', 
+                                                                                                           '".$city."', 
+                                                                                                           '".$country."', 
+                                                                                                           '".$countryCode."', 
+                                                                                                           NOW(), 
+                                                                                                           '".$status."', 
+                                                                                                           '" . $type . "'
+                                                                                                           );"
+		);
 	}
 	
 	public function getAuthLog($userid) {

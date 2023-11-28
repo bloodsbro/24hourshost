@@ -27,9 +27,12 @@ class indexController extends Controller {
 		
 		$this->data['servers'] = $this->serversModel->getServers(array('user_id' => (int)$userid), array('games', 'locations'), array(), $options);
 		$this->data['serversOwners'] = $this->serversModel->getOwners(array('servers_owners.user_id' => $userid), array('servers', 'games', 'locations'));
-		
+
+		$this->data['cores'] = $this->game_settings->cores;
+		$this->data['builds'] = $this->game_settings->builds;
+
 		$paginationLib = new paginationLibrary();
-		
+
 		$paginationLib->total = $this->serversModel->getTotalServers(array('user_id' => (int)$userid));
 		$paginationLib->page = $page;
 		$paginationLib->limit = $this->limit;

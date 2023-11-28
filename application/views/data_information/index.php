@@ -59,10 +59,11 @@
                </div>
             </div>
          </div>
+          <hr />
          <div class="row">
             <?php foreach($locations as $item): ?>
             <div class="col-xl-3 col-lg-6 mb-4">
-			  <div class="bg-white rounded-lg p-5 shadow">
+			  <div class="rounded-lg p-5 shadow location-info">
 				<h2 class="h6 font-weight-bold text-center mb-4"><?php echo $item['location_name'] ?></h2>
 				<center>
 				<div class="col-11">
@@ -70,7 +71,7 @@
 				</div>
 				</center>
 				<hr>
-				<!-- Progress bar 1 -->
+
 				<div class="progress mx-auto" data-value='<?php echo (int)$item['location_ram'] ?>'>
 				  <span class="progress-left">
 								<span class="progress-bar border-primary"></span>
@@ -79,12 +80,12 @@
 								<span class="progress-bar border-primary"></span>
 				  </span>
 				  <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-					<div class="h2 font-weight-bold"><?php echo (int)$item['location_ram'] ?><sup class="small">%</sup></div>
+					<div class="font-weight-bold"><?php echo (int)$item['location_ram'] ?><sup class="small">%</sup></div>
 				  </div>
 				</div>
 
 				<div class="row text-center mt-4">
-				  <div class="col-6 border-right">
+				  <div class="col-6">
 					<div class="h4 font-weight-bold mb-0"><?php echo $item['location_cpu'] ?>%</div><span class="small text-gray">CPU</span>
 				  </div>
 				  <div class="col-6">

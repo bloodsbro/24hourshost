@@ -21,7 +21,7 @@
 						</div>
 						<div class="form-group form-md-line-input">
 							<label>Введите IP (По которому подключаются)</label>
-							<input type="text" class="form-control" id="ip" name="ip" placeholder="Введите IP (По которому подключаются)" value="<?php echo $location['location_ip'] ?>">
+							<input type="text" class="form-control" id="ip" name="ip" placeholder="Введите IP (По которому подключаются)" value="<?php echo $location['location_ip'] ?>:<?php echo $location['location_port'] ?>">
 						</div>
 						<div class="form-group form-md-line-input">
 							<label>Введите имя пользователя</label>

@@ -13,7 +13,10 @@
     <meta property="og:description" content="<?php echo $description ?>"/>
     <meta property="og:type" content="website"/>
     <meta property="og:url" content="https://24hours.host/"/>
-
+    <meta property="vk:image" content="/assets/image/previewsmall.png">
+    <meta property="og:image" content="/assets/image/previewsmall.png">
+    <meta property="twitter:image" content="/assets/image/previewsmall.png">
+    <meta itemprop="image" content="/assets/image/previewsmall.png">
 
     <link rel="shortcut icon" href="/ru/favicon.svg"/>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700"/>
@@ -22,7 +25,6 @@
     <link href="/assets/css/prismjs.bundle.css" rel="stylesheet" type="text/css"/>
 
     <link href="/assets/css/finxgamesru/style.bundle.css" rel="stylesheet" type="text/css"/>
-    <link href="/assets/css/finxgamesru/light.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/css/finxgamesru/lightm.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/css/finxgamesru/finxgamesru.css" rel="stylesheet" type="text/css"/>
     <link href="/assets/css/finxgamesru/finxgamesrum.css" rel="stylesheet" type="text/css"/>
@@ -78,7 +80,7 @@
         <div class="aside aside-left aside-fixed d-flex flex-column flex-row-auto" id="kt_aside">
             <div class="brand flex-column-auto" id="kt_brand">
                 <a href="/" class="brand-logo">
-                    <img alt="Logo" src="<?php echo $logo ?>" width="75" height="75"/>
+                    <img alt="Logo" src="<?php echo $logo ?>" width = "175" height = "75" />
                 </a>
                 <button class="brand-toggle btn btn-sm px-0" id="kt_aside_toggle">
             <span class="svg-icon svg-icon svg-icon-xl">
@@ -105,8 +107,8 @@
                         <li class="menu-item menu-item<?php if ($activesection == "main"): ?>-active<?php endif; ?>"
                             aria-haspopup="true">
                             <a href="/" class="menu-link">
-                                <i class="menu-icon fa fa-bars"></i>
-                                <span class="menu-text">Главная ☕</span>
+                                <i class="menu-icon fas fa-coffee"></i>
+                                <span class="menu-text">Главная</span>
                             </a>
                         </li>
                         <li class="menu-item menu-item-submenu <?php if ($activesection == "server_lease" && $activeitem == "index"): ?>menu-item-here<?php endif; ?>"
@@ -114,7 +116,6 @@
                             <a href="/server_lease" class="menu-link">
                                 <i class="menu-icon fa fa-shopping-cart"></i>
                                 <span class="menu-text">Заказать Сервер</span>
-                                <i class="menu-arrow"></i>
                             </a>
                         </li>
                         <li class="menu-item menu-item-submenu <?php if ($activesection == "servers" && $activeitem == "index"): ?>menu-item-here<?php endif; ?>"
@@ -122,7 +123,6 @@
                             <a href="/servers" class="menu-link">
                                 <i class="menu-icon fa fa-desktop"></i>
                                 <span class="menu-text">Мои сервера</span>
-                                <i class="menu-arrow"></i>
                             </a>
                         </li>
                         <li class="menu-item menu-item-submenu menu-item-rel <?php if ($activesection == "tickets"): ?>menu-item-here<?php endif; ?>"
@@ -131,6 +131,7 @@
                                 <i class="menu-icon fa fa-headset"></i>
                                 <span class="menu-text">Служба Поддержки</span>
                                 <span class="menu-desc"></span>
+                                <i class="menu-arrow"></i>
                             </a>
                             <div class="menu-submenu menu-submenu-classic menu-submenu-left">
                                 <ul class="menu-subnav">
@@ -192,6 +193,7 @@
                                 <i class="menu-icon fa fa-money-check-alt"></i>
                                 <span class="menu-text">Баланс</span>
                                 <span class="menu-desc"></span>
+                                <i class="menu-arrow"></i>
                             </a>
                             <div class="menu-submenu menu-submenu-classic menu-submenu-left">
                                 <ul class="menu-subnav">
@@ -219,14 +221,14 @@
                                 </ul>
                             </div>
                         </li>
-                        <li class="menu-item menu-item-submenu <?php if ($activesection == "sellection" && $activeitem == "applications"): ?>menu-item-here<?php endif; ?>"
+                        <!-- <li class="menu-item menu-item-submenu <?php if ($activesection == "sellection" && $activeitem == "applications"): ?>menu-item-here<?php endif; ?>"
                             data-menu-toggle="hover" aria-haspopup="true">
                             <a href="/sellection/applications" class="menu-link">
                                 <i class="menu-icon fa fa-shopping-bag"></i>
                                 <span class="menu-text">Магазин</span>
                                 <i class="menu-arrow"></i>
                             </a>
-                        </li>
+                        </li> -->
                         <!-- <li class="menu-item menu-item-submenu <?php if ($activesection == "team" && $activeitem == "index"): ?>menu-item-here<?php endif; ?>"
                             data-menu-toggle="hover" aria-haspopup="true">
                             <a href="/team" class="menu-link">
@@ -254,7 +256,6 @@
                             <a href="/data_information" class="menu-link">
                                 <i class="menu-icon fa fa-database"></i>
                                 <span class="menu-text">Мониторинг локаций</span>
-                                <i class="menu-arrow"></i>
                             </a>
                         </li>
                         <li class="menu-item menu-item-submenu <?php if ($activesection == "ball" && $activeitem == "ball"): ?>menu-item-here<?php endif; ?>"
@@ -287,10 +288,10 @@
                             <ul class="menu-nav">
                                 <li class="menu-item menu-item-submenu menu-item-rel menu-item-active"
                                     data-menu-toggle="click" aria-haspopup="true">
-                                    <a href="https://t.me/<?php echo $public ?>" title="Сообщество TG" target="_blank"
+                                    <a href="https://t.me/HoursHost_RU" title="Сообщество TG" target="_blank"
                                        class="navi-link">
                         <span class="symbol symbol-30 mr-3">
-                        <span class="symbol-label"><i class="fab fa-telegram text-primary"></i></span>
+                        <span class="symbol-label"><i class="fab fa-telegram-plane text-primary"></i></span>
                         </span>
                                     </a>
                                 </li>
@@ -311,7 +312,7 @@
                     </div>
                     <div class="topbar">
                         <div class="topbar-item mr-1 mr-lg-3">
-                            <a data-toggle="modal" title="Число Пользователей на сайте"
+                            <a title="Число Пользователей на сайте"
                                class="btn btn-fixed-height btn-light-primary font-weight-bolder font-size-sm px-5 my-1">
                      <span class="svg-icon svg-icon-md">
                         <i class="fa fa-users"></i>
@@ -396,7 +397,7 @@
                     <h3 class="font-weight-bold m-0">Профиль
                         <small class="text-muted font-size-sm ml-2"><?php if ($user_access_level >= 3): ?> Администратора<?php elseif ($user_access_level == 2): ?>Тех.поддержки<?php elseif ($user_access_level == 1): ?>Пользователя<?php endif; ?></small>
                     </h3>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-light btn-hover-primary"
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-hover-primary"
                        id="kt_quick_user_close">
                         <i class="ki ki-close icon-xs text-muted"></i>
                     </a>
@@ -410,11 +411,11 @@
                         </div>
                         <div class="d-flex flex-column">
                             <a href="javascript:;"
-                               class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?php echo $user_lastname ?><?php echo $user_firstname ?></a>
+                               class="font-weight-bold font-size-h5 text-dark-25 text-hover-primary"><?php echo $user_lastname ?> <?php echo $user_firstname ?></a>
                             <div class="navi mt-1">
                                 <a href="javascript:;" class="navi-item">
                      <span class="navi-link p-0 pb-2">
-                     <span class="navi-text text-muted text-hover-primary"><?php echo $user_email ?></span>
+                     <span class="navi-text text-muted text-hover-primary user_email"><?php echo $user_email ?? $user_tg ?></span>
                      </span>
                                 </a>
                             </div>
@@ -424,7 +425,7 @@
                     <div class="navi navi-spacer-x-0 p-0">
                         <a href="/main/acc" class="navi-item">
                             <div class="navi-link">
-                                <div class="symbol symbol-40 bg-light mr-3">
+                                <div class="symbol symbol-40 mr-3">
                                     <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-danger">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -441,14 +442,14 @@
                                     </div>
                                 </div>
                                 <div class="navi-text">
-                                    <div class="font-weight-bold">Мой профиль</div>
+                                    <div class="font-weight-bold text-dark-25 text-hover-primary">Мой профиль</div>
                                     <div class="text-muted">Личные данные</div>
                                 </div>
                             </div>
                         </a>
                         <a href="/servers" class="navi-item">
                             <div class="navi-link">
-                                <div class="symbol symbol-40 bg-light mr-3">
+                                <div class="symbol symbol-40 mr-3">
                                     <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-success">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -465,14 +466,14 @@
                                     </div>
                                 </div>
                                 <div class="navi-text">
-                                    <div class="font-weight-bold">Мои сервера</div>
+                                    <div class="font-weight-bold text-dark-25 text-hover-primary">Мои сервера</div>
                                     <div class="text-muted">Список серверов</div>
                                 </div>
                             </div>
                         </a>
                         <a href="/account/invoices" class="navi-item">
                             <div class="navi-link">
-                                <div class="symbol symbol-40 bg-light mr-3">
+                                <div class="symbol symbol-40 mr-3">
                                     <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-primary">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -491,14 +492,14 @@
                                     </div>
                                 </div>
                                 <div class="navi-text">
-                                    <div class="font-weight-bold">История баланса</div>
+                                    <div class="font-weight-bold text-dark-25 text-hover-primary">История баланса</div>
                                     <div class="text-muted">Список пополнений</div>
                                 </div>
                             </div>
                         </a>
                         <a href="/account/waste" class="navi-item">
                             <div class="navi-link">
-                                <div class="symbol symbol-40 bg-light mr-3">
+                                <div class="symbol symbol-40 mr-3">
                                     <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-warning">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -515,14 +516,14 @@
                                     </div>
                                 </div>
                                 <div class="navi-text">
-                                    <div class="font-weight-bold">История операций</div>
+                                    <div class="font-weight-bold text-dark-25 text-hover-primary">История операций</div>
                                     <div class="text-muted">Список операций</div>
                                 </div>
                             </div>
                         </a>
                         <a href="/tickets" class="navi-item">
                             <div class="navi-link">
-                                <div class="symbol symbol-40 bg-light mr-3">
+                                <div class="symbol symbol-40 mr-3">
                                     <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-info">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -539,7 +540,7 @@
                                     </div>
                                 </div>
                                 <div class="navi-text">
-                                    <div class="font-weight-bold">Мои тикеты</div>
+                                    <div class="font-weight-bold text-dark-25 text-hover-primary">Мои тикеты</div>
                                     <div class="text-muted">Список запросов</div>
                                 </div>
                             </div>
@@ -553,7 +554,7 @@
                             <div class="separator separator-dashed mt-8 mb-5"></div>
                             <a href="/admin" class="navi-item">
                                 <div class="navi-link">
-                                    <div class="symbol symbol-40 bg-light mr-3">
+                                    <div class="symbol symbol-40 mr-3">
                                         <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-dark">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -570,7 +571,7 @@
                                         </div>
                                     </div>
                                     <div class="navi-text">
-                                        <div class="font-weight-bold">Управление</div>
+                                        <div class="font-weight-bold text-dark-25 text-hover-primary">Управление</div>
                                     </div>
                                 </div>
                             </a>
@@ -584,7 +585,7 @@
                     <h3 class="font-weight-bold m-0">Тикеты
                         <small class="text-muted font-size-sm ml-2">Список запросов</small>
                     </h3>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-light btn-hover-primary"
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-hover-primary"
                        id="kt_quick_panel_close">
                         <i class="ki ki-close icon-xs text-muted"></i>
                     </a>
@@ -596,7 +597,7 @@
                             <li class="navi-item">
                                 <a class="navi-link" href="/tickets/view/index/<?php echo $item['ticket_id'] ?>">
                                     <div class="navi-text">
-                                        <span class="d-block font-weight-bold"><?php echo $item['ticket_name'] ?></span>
+                                        <span class="d-block font-weight-bold text-dark-25 text-hover-primary"><?php echo $item['ticket_name'] ?></span>
                                         <span class="text-muted"><?php if ($item['ticket_status'] == 0): ?> Вопрос закрыт.
                                             <?php elseif ($item['ticket_status'] == 1): ?> Ваш вопрос рассматривают.
                                             <?php elseif ($item['ticket_status'] == 2): ?> Ответ от администрации.
@@ -622,17 +623,17 @@
                     <h3 class="font-weight-bold m-0">Авторизация
                         <small class="text-muted font-size-sm ml-2">История авторизации</small>
                     </h3>
-                    <a href="javascript:;" class="btn btn-xs btn-icon btn-light btn-hover-primary"
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-hover-primary"
                        id="kt_quick_actions_close">
                         <i class="ki ki-close icon-xs text-muted"></i>
                     </a>
                 </div>
                 <div class="offcanvas-content pr-5 mr-n5 scroll" style="height: auto; overflow: hidden;">
                     <?php foreach ($visitors as $item): ?>
-                        <div class="d-flex align-items-center bg-light-<?php if ($item['status'] == 0): ?>danger<?php elseif ($item['status'] == 1): ?>success<?php elseif ($item['status'] == 2): ?>warning<?php endif; ?>	 rounded p-5 mb-9">
+                        <div class="d-flex align-items-center bg-dark-<?php if ($item['status'] == 0): ?>danger<?php elseif ($item['status'] == 1): ?>success<?php elseif ($item['status'] == 2): ?>warning<?php endif; ?>	 rounded p-5 mb-9">
                             <div class="d-flex flex-column flex-grow-1 mr-2">
                                 <a href="/main/acc"
-                                   class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">IP: <?php echo $item['ip'] ?></a>
+                                   class="font-weight-bold text-dark-25 text-hover-primary text-hover-primary font-size-lg mb-1">IP: <?php echo $item['ip'] ?></a>
                                 <span class="text-muted font-weight-bold"><?php if ($item['status'] == 0): ?>
                                         Попытка входа в аккаунт -
                                     <?php elseif ($item['status'] == 1): ?>
@@ -652,6 +653,7 @@
                 </div>
             </div>
 
+            <?php if ($oplata_status == 1): ?>
             <div class="modal fade" id="hostin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -679,6 +681,7 @@
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
 
             <div id="kt_scrolltop" class="scrolltop">
          <span class="svg-icon">
@@ -752,11 +755,8 @@
             <script src="/application/public/js/jquery.form.min.js"></script>
             <script src="/assets/js/darkjs/fullcalendar.bundle.js"></script>
             <script src="/assets/js/darkjs/widgets.js"></script>
-            <script>
-                $(document).ready(function () {
-                    $('.progress .progress-bar').progressbar();
-                });
-            </script>
+            <script src="/assets/js/totp.min.js"></script>
+            <script src="/assets/js/jquery-qrcode-0.18.0.min.js"></script>
             <script>
                 $(function () {
                     $('[data-toggle="tooltip"]').tooltip()
@@ -765,6 +765,10 @@
             <script>
                 $(document).ready(function () {
                     $("body").css("opacity", "1");
+
+                    $(".user_email").each(function() {
+                        $(this).text('<?php echo $user_email ?>'.replace(/(\w{3})[\w.-]+@([\w.]+\w)/, "$1***@$2"))
+                    });
                 });
             </script>
             <style>

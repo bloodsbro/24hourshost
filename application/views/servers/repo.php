@@ -17,7 +17,7 @@
 						 <div class="kt-pricing-v1__header">
 							<div class="kt-iconbox kt-iconbox--no-hover">
 							<center>
-								<a href="#" class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3"><?php echo $item['repo_name']?></a>
+								<a href="#" class="text-light text-hover-primary font-weight-bold font-size-h4 mb-3"><?php echo $item['repo_name']?></a>
 							</center>
 							<hr>
 							<center>
@@ -35,12 +35,12 @@
 								<? if($repo['repo_id'] == $item['repo_id']) $item['free_repo'] = 1; ?>
 								<?php endforeach; ?>
 								<? if($item['free_repo'] == 1): ?>
-								<a href="<?echo $item['repo_url']?>" class="btn btn-light-primary btn-shadow-hover font-weight-bolder w-100 py-3" data-toggle="tooltip" data-placement="right"data-original-title="Файл куплен">Скачать файл</a>
+								<a href="<?echo $item['repo_url']?>" target="_blank" class="btn btn-light-primary btn-shadow-hover font-weight-bolder w-100 py-3" data-toggle="tooltip" data-placement="right"data-original-title="Файл куплен">Скачать файл</a>
 								<? else: ?>
 								<button type="submit" onClick="sendAction(<?php echo $server['server_id'] ?>,'<?echo $item['repo_id']?>')" class="btn btn-primary btn-shadow-hover font-weight-bolder w-100 py-3">Купить за <?php echo $item['repo_price']?> RUB.</button>
 								<?php endif;?>
 								<?php elseif($item['repo_price'] == 0): ?>
-								<a href="<?echo $item['repo_url']?>"  class="btn btn-primary btn-shadow-hover font-weight-bolder w-100 py-3">Скачать файл</a>
+								<a href="<?echo $item['repo_url']?>" target="_blank" class="btn btn-primary btn-shadow-hover font-weight-bolder w-100 py-3">Скачать файл</a>
 								<?php endif; ?>
 							   <br>
 							</div>

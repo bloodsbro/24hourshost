@@ -8,7 +8,20 @@ class ticketsMessagesModel extends Model {
 		$sql .= "ticket_message = '" . $this->db->escape($data['ticket_message']) . "', ";
 		$sql .= "ticket_message_date_add = NOW()";
 		$this->db->query($sql);
-		return $this->db->getLastId();
+		$id = $this->db->getLastId();
+
+		$writerQuery = $this->db->query("SELECT * FROM users WHERE user_id = " . (int)$data['user_id'] . " LIMIT 1");
+		$writer = $writerQuery->rows[0];
+
+		$notify = "";
+		if($writer['user_access_level'] < 2) {
+			$notify = "Новое сообщение в тикете #" . $data['ticket_id'] . " от пользователя " . $writer['user_firstname'] . " " . $writer['user_lastname'] . "[#" . $writer['user_id'] . "]: " . $data['ticket_message'];
+		} else {
+			$notify = "Администратор " . $writer['user_firstname'] . " " . $writer['user_lastname'] . "[#" . $writer['user_id'] . "] ответил на сообщение в тикете #" . $data['ticket_id'] . ": " . $data['ticket_message'];
+		}
+
+		$this->notify->adminsTelegram($notify);
+		return $id;
 	}
 	
 	public function deleteTicketMessage($messageid) {

@@ -70,7 +70,7 @@
                      </div>
                   </div>
                </div>
-               <div class="row justify-content-center bg-gray-100 py-8 px-8 py-md-10 px-md-0">
+               <div class="row justify-content-center  py-8 px-8 py-md-10 px-md-0">
                   <div class="col-md-9">
                      <div class="d-flex justify-content-between flex-column flex-md-row font-size-lg">
                         <div class="d-flex flex-column mb-10 mb-md-0">

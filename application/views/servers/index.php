@@ -6,7 +6,7 @@
 			<div class="row">
 				<?php foreach($servers as $item): ?>
 				<div class="col-lg-6 mb-10">
-				<div class="card card-custom wave mb-2 bg-light-<?php if($item['server_status'] == 0): ?>warning
+				<div class="card card-custom wave wave-animate-slow mb-2 bg-dark-<?php if($item['server_status'] == 0): ?>warning
 						<?php elseif($item['server_status'] == 1): ?>danger
 						<?php elseif($item['server_status'] == 2): ?>success
 						<?php elseif($item['server_status'] == 3): ?>primary
@@ -16,7 +16,7 @@
 						<div class="modal-content">
 						  <div class="modal-header">
 							<h5 class="modal-title"><?php echo $item['game_name'] ?></h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="ServerID">
+							<button type="button" class="close o1" data-dismiss="modal" aria-label="ServerID">
 							  <?php if($item['server_status'] == 2): ?><span class="badge badge-success" style="font-size: 10px">Включен</span>
 							  <?php elseif($item['server_status'] == 1): ?> <span class="badge badge-danger" style="font-size: 10px">Выключен</span>
 							  <?php elseif($item['server_status'] == 0): ?><span class="badge badge-warning" style="font-size: 10px">Заблокирован</span>
@@ -24,10 +24,26 @@
 							  <?php elseif($item['server_status'] == 4 || $item['server_status'] == 5 || $item['server_status'] == 6 || $item['server_status'] == 7): ?><span class="badge badge-primary" style="font-size: 10px">Переустановка</span> <?php endif; ?>
 							</button>
 						  </div>
-						  <div class="modal-body">
-							<p  style="font-size: 17px">IP: <?php echo $item['location_ip2'] ?>:<?php echo $item['server_port'] ?> <small class="text-muted font-size-sm">ID-<?php echo $item['server_id'] ?></small></p>
-						  </div>
+                            <div class="modal-body">
+                                <p  style="font-size: 17px">IP: <?php echo $item['location_ip2'] ?>:<?php echo $item['server_port'] ?> <small class="text-muted font-size-sm">ID <?php echo $item['server_id'] ?></small></p>
+                            </div>
 						  <div class="modal-footer">
+                              <p style="display: flex; flex: auto;">
+                                  <?php if($item['game_code'] == "mine" || $item['game_code'] == "mcpe"): ?>
+                                      <?php foreach($cores[$item['game_code']] as $_item): ?>
+                                          <?php if($_item['corepath'] == $item['server_binary']): ?>
+                                              <?php echo $_item['text_name'] ?>
+                                          <?php endif; ?>
+                                      <?php endforeach; ?>
+                                  <?php endif; ?>
+                                  <?php if($item['game_code'] == "cs" || $item['game_code'] == "samp" || $item['game_code'] == 'crmp'): ?>
+                                      <?php foreach($builds[$item['game_code']] as $k => $_item): ?>
+                                          <?php if($k == $item['server_binary']): ?>
+                                              <?php echo $_item['text_name'] ?>
+                                          <?php endif; ?>
+                                      <?php endforeach; ?>
+                                  <?php endif; ?>
+                              </p>
 									<div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
 									<?php if($item['server_status'] == 1): ?>
 									<a href="javascript:;" onClick="sendAction(<?php echo $item['server_id'] ?>,'start')" class="btn btn-icon btn-success" data-toggle="tooltip" title="Запустить">
@@ -63,7 +79,7 @@
 				<?php endforeach; ?>
 				<?php foreach($serversOwners as $item): ?>
 				<div class="col-lg-6 mb-10">
-				<div class="card card-custom wave mb-2 bg-light-<?php if($item['server_status'] == 0): ?>warning
+				<div class="card card-custom wave wave-animate-slow mb-2 bg-dark-<?php if($item['server_status'] == 0): ?>warning
 						<?php elseif($item['server_status'] == 1): ?>danger
 						<?php elseif($item['server_status'] == 2): ?>success
 						<?php elseif($item['server_status'] == 3): ?>primary
@@ -73,7 +89,7 @@
 						<div class="modal-content">
 						  <div class="modal-header">
 							<h5 class="modal-title"><?php echo $item['game_name'] ?></h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="ServerID">
+							<button type="button" class="close o1" data-dismiss="modal" aria-label="ServerID">
 							  <?php if($item['server_status'] == 2): ?><span class="badge badge-success" style="font-size: 10px">Включен</span>
 							  <?php elseif($item['server_status'] == 1): ?> <span class="badge badge-danger" style="font-size: 10px">Выключен</span>
 							  <?php elseif($item['server_status'] == 0): ?><span class="badge badge-warning" style="font-size: 10px">Заблокирован</span>

@@ -15,7 +15,7 @@
       <link href="/assets/css/finxgamesru/lightm.css" rel="stylesheet" type="text/css" />
       <link href="/assets/css/finxgamesru/finxgamesru.css" rel="stylesheet" type="text/css" />
       <link href="/assets/css/finxgamesru/finxgamesrum.css" rel="stylesheet" type="text/css" />
-      <link rel="shortcut icon" href="/ru/favicon.ico" />
+      <link rel="shortcut icon" href="/ru/favicon.svg" />
    </head>
    <body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed header-mobile-fixed aside-enabled aside-fixed aside-minimize-hoverable">
       <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
@@ -389,16 +389,13 @@
          <div class="container-fluid d-flex align-items-stretch justify-content-between">
             <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
                <div id="kt_header_menu" class="header-menu header-menu-mobile header-menu-layout-default">
-				  <?if($user_access_level > 1):?>
+				  <?php if($user_access_level > 1):?>
 				  <ul class="menu-nav">
                      <li class="menu-item menu-item-submenu menu-item-rel menu-item-active" data-menu-toggle="click" aria-haspopup="true">
-                        <span class="symbol symbol-30 mr-3">
-                        <span class="symbol-label"><span class="badge badge-light"><b id="online"></b></span></span>
-                        </span>
+                        <span class="symbol-label">Онлайн: <b id="online">загрузка</b></span>
                      </li>
                   </ul>
-				  <?endif;?>
-                  </ul>
+				  <?php endif;?>
                </div>
             </div>
             <div class="topbar">
@@ -420,7 +417,7 @@
       </div>
       <ul class="sticky-toolbar nav flex-column pl-2 pr-2 pt-3 pb-3 mt-4">
          <li class="nav-item mb-2" data-toggle="tooltip" title="PHPMyadmin" data-placement="right">
-            <a class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" href="/phpmyadmin" target="blank">
+            <a class="btn btn-sm btn-icon btn-bg-light btn-icon-primary btn-hover-primary" href="https://pma.24hours.host/" target="blank">
             <i class="fa fa-database icon-lg"></i>
             </a>
          </li>
@@ -442,7 +439,7 @@
             <h3 class="font-weight-bold m-0">Профиль 
                <small class="text-muted font-size-sm ml-2"><?if($user_access_level >= 3):?> Администратора<?elseif($user_access_level == 2):?>Тех.поддержки<?elseif($user_access_level == 1):?>Пользователя<?endif;?></small>
             </h3>
-            <a href="javascript:;" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_user_close">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-hover-primary" id="kt_quick_user_close">
             <i class="ki ki-close icon-xs text-muted"></i>
             </a>
          </div>
@@ -453,7 +450,7 @@
                   <i class="symbol-badge bg-success"></i>
                </div>
                <div class="d-flex flex-column">
-                  <a href="javascript:;" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary"><?php echo $user_lastname ?> <?php echo $user_firstname ?></a>
+                  <a href="javascript:;" class="font-weight-bold font-size-h5 text-dark-25 text-hover-primary"><?php echo $user_lastname ?> <?php echo $user_firstname ?></a>
                   <div class="navi mt-1">
                      <a href="javascript:;" class="navi-item">
                      <span class="navi-link p-0 pb-2">
@@ -467,7 +464,7 @@
             <div class="navi navi-spacer-x-0 p-0">
                <a href="/main/acc" class="navi-item">
                   <div class="navi-link">
-                     <div class="symbol symbol-40 bg-light mr-3">
+                     <div class="symbol symbol-40 mr-3">
                         <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-danger">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -481,14 +478,14 @@
                         </div>
                      </div>
                      <div class="navi-text">
-                        <div class="font-weight-bold">Мой профиль</div>
+                        <div class="font-weight-bold text-dark-25 text-hover-primary">Мой профиль</div>
                         <div class="text-muted">Личные данные</div>
                      </div>
                   </div>
                </a>
                <a href="/servers" class="navi-item">
                   <div class="navi-link">
-                     <div class="symbol symbol-40 bg-light mr-3">
+                     <div class="symbol symbol-40 mr-3">
                         <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-success">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -502,14 +499,14 @@
                         </div>
                      </div>
                      <div class="navi-text">
-                        <div class="font-weight-bold">Мои сервера</div>
+                        <div class="font-weight-bold text-dark-25 text-hover-primary">Мои сервера</div>
                         <div class="text-muted">Список серверов</div>
                      </div>
                   </div>
                </a>
                <a href="/account/invoices" class="navi-item">
                   <div class="navi-link">
-                     <div class="symbol symbol-40 bg-light mr-3">
+                     <div class="symbol symbol-40 mr-3">
                         <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-primary">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -524,14 +521,14 @@
                         </div>
                      </div>
                      <div class="navi-text">
-                        <div class="font-weight-bold">История баланса</div>
+                        <div class="font-weight-bold text-dark-25 text-hover-primary">История баланса</div>
                         <div class="text-muted">Список пополнений</div>
                      </div>
                   </div>
                </a>
                <a href="/account/waste" class="navi-item">
                   <div class="navi-link">
-                     <div class="symbol symbol-40 bg-light mr-3">
+                     <div class="symbol symbol-40 mr-3">
                         <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-warning">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -545,14 +542,14 @@
                         </div>
                      </div>
                      <div class="navi-text">
-                        <div class="font-weight-bold">История операций</div>
+                        <div class="font-weight-bold text-dark-25 text-hover-primary">История операций</div>
                         <div class="text-muted">Список операций</div>
                      </div>
                   </div>
                </a>
                <a href="/tickets" class="navi-item">
                   <div class="navi-link">
-                     <div class="symbol symbol-40 bg-light mr-3">
+                     <div class="symbol symbol-40 mr-3">
                         <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-info">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -566,7 +563,7 @@
                         </div>
                      </div>
                      <div class="navi-text">
-                        <div class="font-weight-bold">Мои тикеты</div>
+                        <div class="font-weight-bold text-dark-25 text-hover-primary">Мои тикеты</div>
                         <div class="text-muted">Список запросов</div>
                      </div>
                   </div>
@@ -580,7 +577,7 @@
                <div class="separator separator-dashed mt-8 mb-5"></div>
                <a href="/admin" class="navi-item">
                   <div class="navi-link">
-                     <div class="symbol symbol-40 bg-light mr-3">
+                     <div class="symbol symbol-40 mr-3">
                         <div class="symbol-label">
                            <span class="svg-icon svg-icon-md svg-icon-dark">
                               <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -594,7 +591,7 @@
                         </div>
                      </div>
                      <div class="navi-text">
-                        <div class="font-weight-bold">Управление</div>
+                        <div class="font-weight-bold text-dark-25 text-hover-primary">Управление</div>
                         <div class="text-muted">Панель <?if($user_access_level >= 3):?> Администратора<?elseif($user_access_level == 2):?> Тех.поддержки<?endif;?></div>
                      </div>
                   </div>
@@ -608,7 +605,7 @@
             <h3 class="font-weight-bold m-0">Тикеты 
                <small class="text-muted font-size-sm ml-2">Список запросов</small>
             </h3>
-            <a href="javascript:;" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_panel_close">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-hover-primary" id="kt_quick_panel_close">
             <i class="ki ki-close icon-xs text-muted"></i>
             </a>
          </div>
@@ -618,7 +615,7 @@
                <li class="navi-item">
                   <a class="navi-link" href="/tickets/view/index/<?php echo $item['ticket_id'] ?>">
                      <div class="navi-text">
-                        <span class="d-block font-weight-bold"><?php echo $item['ticket_name'] ?></span>
+                        <span class="d-block font-weight-bold text-dark-25 text-hover-primary"><?php echo $item['ticket_name'] ?></span>
                         <span class="text-muted"><?php if($item['ticket_status'] == 0): ?> Вопрос закрыт.
                         <?php elseif($item['ticket_status'] == 1): ?> Ваш вопрос рассматривают.
                         <?php elseif($item['ticket_status'] == 2): ?> Ответ от администрации.
@@ -643,13 +640,13 @@
             <h3 class="font-weight-bold m-0">Авторизация
                <small class="text-muted font-size-sm ml-2">История авторизации</small>
             </h3>
-            <a href="javascript:;" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="kt_quick_actions_close">
+            <a href="javascript:;" class="btn btn-xs btn-icon btn-hover-primary" id="kt_quick_actions_close">
             <i class="ki ki-close icon-xs text-muted"></i>
             </a>
          </div>
          <div class="offcanvas-content pr-5 mr-n5 scroll" style="height: auto; overflow: hidden;">
             <?php foreach($visitors as $item):?>
-            <div class="d-flex align-items-center bg-light-<?php if($item['status'] == 0): ?>danger<?php elseif($item['status'] == 1): ?>success<?php elseif($item['status'] == 2): ?>warning<?php endif; ?>	 rounded p-5 mb-9">
+            <div class="d-flex align-items-center bg-dark-<?php if($item['status'] == 0): ?>danger<?php elseif($item['status'] == 1): ?>success<?php elseif($item['status'] == 2): ?>warning<?php endif; ?>	 rounded p-5 mb-9">
                <div class="d-flex flex-column flex-grow-1 mr-2">
                   <a href="/main/acc" class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">IP: <?php echo $item['ip'] ?></a>
                   <span class="text-muted font-weight-bold"><?php if($item['status'] == 0): ?>

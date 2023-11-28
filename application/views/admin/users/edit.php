@@ -21,7 +21,7 @@
 						<div class="card-body pt-4">
 							<div class="navi navi-bold navi-hover navi-active navi-link-rounded">
 								<div class="navi-item mb-2">
-									<a href="/admin/servers/index?userid=<?php echo $user['user_id'] ?>" class="navi-link py-4">
+									<a href="/admin/servers/index?userid=<?php echo $user['user_id'] ?>" class="navi-link py-4 admin-user-menu">
 									<span class="navi-icon mr-2">
 									<i class="fa fa-server"></i>
 									</span>
@@ -175,7 +175,7 @@
 							<td><?php echo date("d.m.Y в H:i", strtotime($item['datetime'])) ?></td>
 							<td><?php echo $item['ip'] ?></td>
 							<td><?php if($item['status'] == 0): ?> 
-								Ошибка входа (пароль <?php echo $item['password'] ?>)
+								Ошибка входа
 								<?php elseif($item['status'] == 1): ?> 
 								Вход в систему
 								<?php elseif($item['status'] == 2): ?> 
@@ -186,7 +186,10 @@
 								Вход через VK
 								<?php elseif($item['status'] == 5): ?> 
 								Ошибка входа через VK
-								<?php endif; ?> 
+								<?php endif; ?>
+                                <?php if($item['system'] != 'NONE') {
+                                    echo "(" . $item['system'] . ")";
+                                } ?>
 							</td>
 						</tr>
 						<?php endforeach; ?>

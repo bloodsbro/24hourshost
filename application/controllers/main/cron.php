@@ -285,7 +285,7 @@ class cronController extends Controller {
 						$this->serversModel->updateServer($serverid, array('server_work' => 1));
 						echo "Игровой сервер: gs" . $serverid . " - неудачная смена ядра. Причина: ".$result['description']."". PHP_EOL;
 					}
-				} else if($item['game_code'] == 'cs') {
+				} else if($item['game_code'] == 'cs' || $item['game_code'] == "samp" || $item['game_code'] == 'crmp') {
 					$this->serversModel->updateServer($serverid, array('server_work' => 0));
 					$result = $this->serversModel->action($serverid, 'sendcommand', array('command' => 'installNewBuild'));		
 					if($result['status'] == "success") {

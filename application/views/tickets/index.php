@@ -33,11 +33,6 @@
                            <span class="navi-text font-weight-bolder font-size-lg">База знаний</span>
                            </a>
                         </div>
-						<hr>
-						<div class="kt-portlet__separator"></div>
-						<div class="kt-portlet__body">
-							<script type="text/javascript"> var css_file=document.createElement("link"); css_file.setAttribute("rel","stylesheet"); css_file.setAttribute("type","text/css"); css_file.setAttribute("href","//s.bookcdn.com//css/cl/bw-cl-180x170r3.css"); document.getElementsByTagName("head")[0].appendChild(css_file); </script> <div id="tw_13_1198214636"><div style="width:145px; height:50px; margin: 0 auto;"><a href="https://nochi.com/time/moscow-18171">Москва</a><br/></div></div> <script type="text/javascript"> function setWidgetData_1198214636(data){ if(typeof(data) != 'undefined' && data.results.length > 0) { for(var i = 0; i < data.results.length; ++i) { var objMainBlock = ''; var params = data.results[i]; objMainBlock = document.getElementById('tw_'+params.widget_type+'_'+params.widget_id); if(objMainBlock !== null) objMainBlock.innerHTML = params.html_code; } } } var clock_timer_1198214636 = -1; </script> <script type="text/javascript" charset="UTF-8" src="https://widgets.booked.net/time/info?ver=2&domid=589&type=13&id=1198214636&scode=124&city_id=18171&wlangid=20&mode=2&details=0&background=ffffff&color=000000&add_background=ffffff&add_color=000000&head_color=ffffff&border=0&transparent=0"></script>
-						</div>
                      </div>
                   </div>
                </div>

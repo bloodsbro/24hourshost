@@ -157,7 +157,7 @@
 									</a>
 								</div>
 								<?php endif; ?>
-								<?php if($server['game_code'] == "cs" || $server['game_code'] == "csgo" || $server['game_code'] == "css" || $server['game_query'] == "samp" AND $server['server_status'] == 1): ?>
+								<?php if(($server['game_code'] == "cs" || $server['game_code'] == "csgo" || $server['game_code'] == "css" || $server['game_query'] == "samp" || $server['game_code'] == 'crmp') && $server['server_status'] == 1): ?>
 								<div class="navi-item my-2">
 									<a href="javascript:;" data-toggle="modal" data-target="#csfast" class="navi-link">
 									<span class="navi-icon mr-3">
@@ -248,6 +248,30 @@
 								</div>
 							</div>
 						</div>
+                        <?php if($server['game_code'] == "cs" || $server['game_code'] == "samp" || $server['game_code'] == "mine" || $server['game_code'] == "mcpe"): ?>
+                            <div class="col-xl-12">
+                                <div class="card card-custom mb-3">
+                                    <div class="card-header border-0">
+                                        <h3 class="card-title">Версия сервера<small class="text-muted font-size-sm ml-2">
+                                                <?php if($server['game_code'] == "mine" || $server['game_code'] == "mcpe"): ?>
+                                                    <?php foreach($cores as $item): ?>
+                                                        <?php if($item['corepath'] == $server['server_binary']): ?>
+                                                            <?php echo $item['text_name'] ?>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                                <?php if($server['game_code'] == "cs" || $server['game_code'] == "samp"): ?>
+                                                    <?php foreach($builds as $k => $item): ?>
+                                                        <?php if($k == $server['server_binary']): ?>
+                                                            <?php echo $item['text_name'] ?>
+                                                        <?php endif; ?>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </small></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endif; ?>
 						<?php if($server['game_code'] == "cs" || $server['game_code'] == "csgo" || $server['game_code'] == "css" || $server['game_query'] == "samp" AND $server['server_status'] == 2): ?>
 						<div class="col-xl-12">
 							<div class="card card-custom mb-3">
@@ -309,7 +333,7 @@
 						<div class="col-xl-12">
 							<div class="card card-custom mb-3">
 								<div class="card-header border-0">
-									<h3 class="card-title">MySQL Хост<small class="text-muted font-size-sm ml-2">127.0.0.1/<?php echo $server['location_ip'] ?></small></h3>
+									<h3 class="card-title">MySQL Хост<small class="text-muted font-size-sm ml-2"><?php echo $server['location_ip'] ?></small></h3>
 									<div class="card-toolbar">
 										<?if($server['server_mysql'] == 1):?>
 										<a href="javascript:;" onClick="sendAction(<?php echo $server['server_id'] ?>,'mysqloff')" class="btn btn-clean btn-icon" style="margin-right: .25rem"><i class="fa fa-power-off" data-toggle="tooltip" data-placement="right" title="" data-original-title="Выключить"></i></a>
@@ -503,7 +527,12 @@
 						break;
 					case 'success':
 						toastr.success(data.success);
-						setTimeout("reload()", 1500);
+
+                        if(actionserver === 'delete') {
+                            setTimeout("history.back()", 1500);
+                        } else {
+                            setTimeout("reload()", 1500);
+                        }
 						break;
 				}
 			},
@@ -537,3 +566,4 @@
 		});
 	}
 </script>
+<?php echo $footer ?>

@@ -58,9 +58,15 @@ class indexController extends Controller {
 
 					$get_params = http_build_query($request_params);
 					file_get_contents('https://api.vk.com/method/messages.send?'.$get_params);
-					error_log('https://api.vk.com/method/messages.send?'.$get_params);
 					echo('ok');
 				break;
+			}
+			case 'group_join': {
+				error_log(json_encode($data));
+				break;
+			}
+			default: {
+				error_log($data);
 			}
 		}
 	}

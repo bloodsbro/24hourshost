@@ -3,22 +3,23 @@
 	
 	$requestTime = $start_array[1] + $start_array[0];
 ?>
-<div class="footer bg-white py-4 d-flex flex-lg-column" id="kt_footer">
+<div class="footer py-4 d-flex flex-lg-column" id="kt_footer">
 	<div class="container d-flex flex-column flex-md-row align-items-center justify-content-between">
 		<div class="text-dark order-2 order-md-1">
 					 <a href="" target="_blank" class="text-dark-50 text-hover-primary"></a>
-                     <span class="text-muted font-weight-bold mr-2"> © <script>document.write(new Date().getFullYear());</script> 24Hours.Host - All Rights Reserved - <a href="mailto:admin@24Hours.Host">admin@24Hours.Host</a></span>
+            <span class="text-muted font-weight-bold mr-2"> © <script>document.write(new Date().getFullYear());</script> 24Hours.Host - All Rights Reserved</span>
+        </div>
+		<div class="nav nav-dark order-1 order-md-2">
+			<a href="https://24hours.host/oferta" target="_blank" class="nav-link px-3">Конфиденциальность</a>
+			<a href="https://24hours.host/privacy" target="_blank" class="nav-link px-3">Условия Использования</a>
 		</div>
-		<!--<div class="nav nav-dark order-1 order-md-2">
-			<a href="/ru/privacy.pdf" target="_blank" class="nav-link px-3">Конфиденциальность</a>
-			<a href="/ru/oferta.pdf" target="_blank" class="nav-link px-3">Условия Использования</a>
-		</div>-->
 		
 	</div>
 	<div>
 		<center>
-			Серверное время: <span id="servertime"></span>
-			<a href="#" class="nav-link px-3">
+            Made with ❤️<br />
+            Серверное время: <span id="servertime"></span>
+			<a class="nav-link px-3">
 				<?php
 				$end_time = microtime();
 				$end_array = explode(" ",$end_time);
@@ -30,6 +31,8 @@
 		</center>
 	</div>
 </div>
+<div id="vk_api_transport"></div>
+
 <script type="text/javascript">
 	function getDate()
 	{
@@ -85,4 +88,19 @@
 			},
 		});
 	}
+</script>
+<script>
+    setTimeout(function() {
+        var el = document.createElement("script");
+        el.type = "text/javascript";
+        el.src = "https://vk.com/js/api/openapi.js?169";
+        el.async = true;
+        document.getElementById("vk_api_transport").appendChild(el);
+    }, 0);
+
+    window.vkAsyncInit = function() {
+        VK.init({
+            apiId: <?php echo $vk_id ?>
+        });
+    };
 </script>

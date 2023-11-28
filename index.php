@@ -25,6 +25,7 @@ require_once(ENGINE_DIR . 'main/load.php');
 require_once(ENGINE_DIR . 'main/module.php');
 require_once(ENGINE_DIR . 'main/action.php');
 require_once(ENGINE_DIR . 'main/cookie.php');
+require_once(ENGINE_DIR . 'main/notify.php');
 
 $registry = new Registry();
 
@@ -51,6 +52,9 @@ $registry->cookie = $cookie;
 
 $db = new DB($config->db_type, $config->db_hostname, $config->db_username, $config->db_password, $config->db_database);
 $registry->db = $db;
+
+$notify = new Notify($registry);
+$registry->notify = $notify;
 
 $user = new User($registry);
 $registry->user = $user;

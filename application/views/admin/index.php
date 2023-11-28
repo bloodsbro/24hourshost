@@ -24,7 +24,7 @@
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1">
-									<a href="/admin/users" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Пользователи</a>
+									<a href="/admin/users" class="text-dark-25 text-hover-primary mb-1 font-size-lg font-weight-bolder">Пользователи</a>
 									<div class="d-flex">
 										<div class="d-flex align-items-center pr-5">
 											<span class="svg-icon svg-icon-md svg-icon-primary pr-1">
@@ -81,7 +81,7 @@
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1">
-									<a href="/admin/tickets" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Техническая поддержка</a>
+									<a href="/admin/tickets" class="text-dark-25 text-hover-primary mb-1 font-size-lg font-weight-bolder">Техническая поддержка</a>
 									<div class="d-flex">
 										<div class="d-flex align-items-center pr-5">
 											<span class="svg-icon svg-icon-md svg-icon-primary pr-1">
@@ -138,7 +138,7 @@
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1">
-									<a href="/admin/servers" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Игровые сервера</a>
+									<a href="/admin/servers" class="text-dark-25 text-hover-primary mb-1 font-size-lg font-weight-bolder">Игровые сервера</a>
 									<div class="d-flex">
 										<div class="d-flex align-items-center pr-5">
 											<span class="svg-icon svg-icon-md svg-icon-primary pr-1">
@@ -196,7 +196,7 @@
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1">
-									<a href="/admin/invoices" class="text-dark-75 text-hover-primary mb-1 font-size-lg font-weight-bolder">Платежи</a>
+									<a href="/admin/invoices" class="text-dark-25 text-hover-primary mb-1 font-size-lg font-weight-bolder">Платежи</a>
 									<div class="d-flex">
 										<div class="d-flex align-items-center pr-5">
 											<span class="svg-icon svg-icon-md svg-icon-primary pr-1">
@@ -208,8 +208,8 @@
 													</g>
 												</svg>
 											</span>
-											<span class="text-muted font-weight-bold"><? foreach($invoices as $item): ?> <?endforeach; ?>
-											R: <?echo $item['invoice_ammount'];?>руб.</span>
+											<span class="text-muted font-weight-bold">
+											R: <?php if(count($invoices) > 0) { echo $invoices[count($invoices) - 1]['invoice_ammount']; } else { echo '0'; };?>руб.</span>
 										</div>
 										<div class="d-flex align-items-center">
 											<span class="svg-icon svg-icon-md svg-icon-primary pr-1">
@@ -298,7 +298,7 @@
 									</span>
 								</div>
 								<div class="d-flex flex-column flex-grow-1 font-weight-bold">
-									<a href="/admin/users/edit/index/<?php echo $item['user_id'] ?>" class="text-dark text-hover-primary mb-0 font-size-lg"><?php echo $item['user_firstname'] ?> <?php echo $item['user_lastname'] ?></a>
+									<a href="/admin/users/edit/index/<?php echo $item['user_id'] ?>" class="text-dark-25 text-hover-primary mb-0 font-size-lg"><?php echo $item['user_firstname'] ?> <?php echo $item['user_lastname'] ?></a>
 									<span class="text-muted">
 									<?php if($item['user_access_level'] == 2): ?>
 									Агент Поддержки

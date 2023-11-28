@@ -187,7 +187,7 @@
 									</a>
 								</div>
 								<?php endif; ?>
-								<?php if($server['game_code'] == "cs" AND $server['server_status'] == 1): ?>
+								<?php if(($server['game_code'] == "cs" || $server['game_code'] == "samp" || $server['game_code'] == 'crmp') AND $server['server_status'] == 1): ?>
 								<div class="navi-item my-2">
 									<a href="javascript:;" data-toggle="modal" data-target="#builds" class="navi-link">
 									<span class="navi-icon mr-3">
@@ -199,7 +199,7 @@
 									</a>
 								</div>
 								<?php endif; ?>
-								<?php if($server['game_code'] == "cs" || $server['game_code'] == "csgo" || $server['game_code'] == "css" || $server['game_query'] == "samp" AND $server['server_status'] == 1): ?>
+								<?php if(($server['game_code'] == "cs" || $server['game_code'] == "csgo" || $server['game_code'] == "css" || $server['game_query'] == "samp") && $server['server_status'] == 1): ?>
 								<div class="navi-item my-2">
 									<a href="javascript:;" data-toggle="modal" data-target="#csfast" class="navi-link">
 									<span class="navi-icon mr-3">
@@ -304,7 +304,7 @@
 								</div>
 							</div>
 						</div>
-						<?php if($server['game_code'] == "cs" || $server['game_code'] == "mine" || $server['game_code'] == "mcpe"): ?>
+						<?php if($server['game_code'] == "cs" || $server['game_code'] == "samp" || $server['game_code'] == "mine" || $server['game_code'] == "mcpe" || $server['game_code'] == 'crmp'): ?>
 						<div class="col-xl-12">
 							<div class="card card-custom mb-3">
 								<div class="card-header border-0">
@@ -316,8 +316,8 @@
 									<?php endif; ?>
 									<?php endforeach; ?>
 									<?php endif; ?>
-									<?php if($server['game_code'] == "cs"): ?>
-									<?php foreach($builds as $item): ?>
+									<?php if($server['game_code'] == "cs" || $server['game_code'] == "samp" || $server['game_code'] == 'crmp'): ?>
+									<?php foreach($builds as $k => $item): ?>
 									<?php if($item['buildpath'] == $server['server_binary']): ?>
 									<?php echo $item['text_name'] ?>
 									<?php endif; ?>
@@ -376,7 +376,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="d-flex align-items-center bg-light-primary rounded p-4 mb-2">
+					<div class="d-flex align-items-center bg-dark-primary rounded p-4 mb-2">
 						<i class="flaticon-exclamation icon-xl text-primary mr-5"></i>
 						<div class="d-flex flex-column flex-grow-1 mr-2">
 							<span class="font-weight-bolder text-primary py-1 font-size-lg">Итого к оплате: <span id="price2">0.00 RUB</span></span>
@@ -410,7 +410,7 @@
 							<input type="text" class="form-control" id="port" name="port" placeholder="Введите порт" value="<?echo $server['server_port']?>">
 						</div>
 					</div>
-					<div class="d-flex align-items-center bg-light-primary rounded p-4 mb-2">
+					<div class="d-flex align-items-center bg-dark-primary rounded p-4 mb-2">
 						<i class="flaticon-exclamation icon-xl text-primary mr-5"></i>
 						<div class="d-flex flex-column flex-grow-1 mr-2">
 							<span class="font-weight-bolder text-primary py-1 font-size-lg">Стоимость смены порта: <span id="price_port"><?php echo $portPrice ?> руб.</span></span>
@@ -449,7 +449,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="d-flex align-items-center bg-light-primary rounded p-4 mb-2">
+					<div class="d-flex align-items-center bg-dark-primary rounded p-4 mb-2">
 						<i class="flaticon-exclamation icon-xl text-primary mr-5"></i>
 						<div class="d-flex flex-column flex-grow-1 mr-2">
 							<span class="font-weight-bolder text-primary py-1 font-size-lg">Итого к оплате: <span id="price">0.00 RUB</span></span>
@@ -541,7 +541,7 @@
 </div>
 <!--end::Modal-->
 <?php endif; ?>
-<?php if($server['game_code'] == "cs" AND $server['server_status'] == 1): ?>
+<?php if(($server['game_code'] == "cs" || $server['game_code'] == "samp" || $server['game_code'] == 'crmp') AND $server['server_status'] == 1): ?>
 <!--begin::Modal-->
 <div class="modal fade" id="builds" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -552,14 +552,12 @@
 				<i aria-hidden="true" class="ki ki-close"></i>
 				</button>
 			</div>
-			<form id="changebild" method="POST" style="padding:0px; margin:0px;">
+			<form id="changebuild" method="POST" style="padding:0px; margin:0px;">
 				<div class="modal-body">
 					<div class="input-group mb-2">
 						<select style="width:340px;" class="form-control" id="build" name="build">
-							<?php foreach($builds as $item): ?>
-							<?php if($item['buildpath'] != $no_build['buildpath']): ?>
-							<option value="<?php echo $item['buildpath'] ?>"><?php echo $item['text_name'] ?> <?php if($item['buildpath'] == $server['server_binary']):?>| Установлено<?php endif; ?></option>
-							<?php endif; ?>
+							<?php foreach($builds as $k => $item): ?>
+							<option value="<?php echo $k ?>"><?php echo $item['text_name'] ?> <?php if($item['buildpath'] == $server['server_binary']):?>| Установлено<?php endif; ?></option>
 							<?php endforeach; ?>
 							<?php if(empty($builds)): ?>	
 							<option value="builds_empty">Для данной игры пока нет билдов</option>
@@ -579,7 +577,7 @@
 </div>
 <!--end::Modal-->
 <?php endif; ?>
-<?php if($server['game_code'] == "cs" || $server['game_code'] == "csgo" || $server['game_code'] == "css" || $server['game_query'] == "samp" AND $server['server_status'] == 1): ?>
+<?php if(($server['game_code'] == "cs" || $server['game_code'] == "csgo" || $server['game_code'] == "css" || $server['game_query'] == "samp") && $server['server_status'] == 1): ?>
 <!--begin::Modal-->
 <div class="modal fade" id="csfast" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
@@ -986,9 +984,9 @@
 	}); 
 </script>
 <?php endif; ?>	
-<?php if($server['game_code'] == "cs" AND $server['server_status'] == 1): ?>
+<?php if(($server['game_code'] == "cs" || $server['game_code'] == "samp" || $server['game_code'] == 'crmp') AND $server['server_status'] == 1): ?>
 <script>
-	$('#changebild').ajaxForm({ 
+	$('#changebuild').ajaxForm({
 		url: '/servers/control/changebuild/<?php echo $server['server_id'] ?>',
 		dataType: 'text',
 		success: function(data) {

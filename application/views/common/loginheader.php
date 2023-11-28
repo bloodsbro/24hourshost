@@ -9,12 +9,12 @@
       <link href="/assets/css/login-2.css" rel="stylesheet" type="text/css" />
       <link href="/assets/css/plugins.bundle.css" rel="stylesheet" type="text/css" />
       <link href="/assets/css/prismjs.bundle.css" rel="stylesheet" type="text/css" />
-      <link href="/assets/css/style.bundle.css" rel="stylesheet" type="text/css" />
+      <link href="/assets/css/finxgamesru/style.bundle.css" rel="stylesheet" type="text/css" />
       <link rel="shortcut icon" href="/favicon.ico" />
    </head>
    <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled page-loading">
       <div class="d-flex flex-column flex-root">
-         <div class="login login-2 login-signin-on d-flex flex-column flex-column-fluid bg-white position-relative overflow-hidden" id="kt_login">
+         <div class="login login-2 login-signin-on d-flex flex-column flex-column-fluid position-relative overflow-hidden" id="kt_login">
             <div class="login-header py-10 flex-column-auto">
             </div>
             <div class="login-body d-flex flex-column-fluid align-items-stretch justify-content-center">
@@ -22,17 +22,24 @@
                   <div class="col-lg-6 d-flex align-items-center">
                      <div class="login-form login-signin">
                         <form class="form w-xxl-550px rounded-lg p-20" novalidate="novalidate" id="kt_login_signin_form" method="POST">
+                           <input type="hidden" name="type" id="type" value="password" />
                            <div class="form-group">
-                              <label class="font-size-h6 font-weight-bolder text-dark">E-Mail</label>
+                              <label class="font-size-h6 font-weight-bolder">E-Mail</label>
                               <input class="form-control form-control-solid h-auto p-6 rounded-lg" type="text" name="email" placeholder="Введите свой E-Mail">
                            </div>
                            <div class="form-group">
                               <div class="d-flex justify-content-between mt-n5">
-                                 <label class="font-size-h6 font-weight-bolder text-dark pt-5">Пароль</label>
+                                 <label class="font-size-h6 font-weight-bolder pt-5">Пароль</label>
                                  <a href="javascript:;" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5" id="kt_login_forgot">Забыли пароль?</a>
                               </div>
                               <input class="form-control form-control-solid h-auto p-6 rounded-lg" type="password" name="password" placeholder="Введите свой Пароль">
                            </div>
+                            <div class="form-group">
+                                <div class="d-flex justify-content-between mt-n5">
+                                    <label class="font-size-h6 font-weight-bolder pt-5">Код 2FA (если установлен)</label>
+                                </div>
+                                <input class="form-control form-control-solid h-auto p-6 rounded-lg" type="number" name="totp" placeholder="Введите код 2FA (если установлен)">
+                            </div>
                            <div class="card card-body" style="margin-bottom: 1rem;padding: 1rem;">
                               <center>
                                  <div class="g-recaptcha" data-sitekey="<?php echo $recaptcha ?>" id="recaptcha1"></div>
@@ -43,6 +50,38 @@
                                  <button type="submit" class="btn btn-primary btn-block font-weight-bolder font-size-h6">Войти</button>
                               </div>
                            </div>
+                            <hr>
+                            <div style="margin: auto;width: fit-content;">
+                                <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="o24hourshost_bot" data-size="large" data-onauth="onTelegramAuth(user)" data-request-access="write"></script>
+                                <script type="text/javascript">
+                                    function onTelegramAuth(user) {
+                                        $.ajax({
+                                            url: '/account/login/ajax',
+                                            type: 'post',
+                                            data: {
+                                                type: 'oauth',
+                                                service: 'telegram',
+                                                data: user
+                                            },
+                                            success: (data) => {
+                                                console.log(data);
+                                                data = $.parseJSON(data);
+                                                switch(data.status) {
+                                                    case 'error':
+                                                        toastr.error(data.error);
+                                                        $('button[type=submit]').prop('disabled', false);
+                                                        grecaptcha.reset(captcha_infobox);
+                                                        break;
+                                                    case 'success':
+                                                        toastr.success(data.success);
+                                                        setTimeout("redirect('/')", 1500);
+                                                        break;
+                                                }
+                                            }
+                                        })
+                                    }
+                                </script>
+                            </div>
                            <hr>
                            <center>
                               <span class="text-muted font-weight-bold font-size-h4">У вас ещё нет аккаунта?<br>
@@ -51,8 +90,9 @@
                         </form>
                      </div>
                      <div class="login-form login-signup">
-                        <form class="form w-xxl-550px rounded-lg p-20" novalidate="novalidate" id="kt_login_signup_form" method="GET">
-                           <div class="form-group">
+                        <form class="form w-xxl-550px rounded-lg p-20" novalidate="novalidate" id="kt_login_signup_form" method="POST">
+                            <input type="hidden" name="type" id="type" value="password" />
+                            <div class="form-group">
                               <input class="form-control form-control-solid h-auto p-6 rounded-lg font-size-h6" type="text" id="ref" name="ref" disabled placeholder="<?php
                                  if(isset($_GET['ref'])) {
                                      echo ' Приглашение от: '.$user['user_firstname'].'('.$_GET['ref'].')';
@@ -115,10 +155,11 @@
                </div>
             </div>
             <div class="login-footer py-10 flex-column-auto">
-               <div class="container d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between">
+               <div class="container d-flex flex-column flex-md-row align-items-center justify-content-center justify-content-md-between text-center">
                   <div class="font-size-h6 font-weight-bolder order-2 order-md-1 py-2 py-md-0">
-                     <span class="text-muted font-weight-bold mr-2"><script>document.write(new Date().getFullYear());</script>©</span>
-                     <a class="text-dark-50 text-hover-primary"><?php echo $description ?></a>
+                      Made with ❤️<br />
+                      <span class="text-muted font-weight-bold mr-2">© <script>document.write(new Date().getFullYear());</script></span>
+                     <a class="text-dark-25 text-hover-primary"><?php echo $description ?></a>
                   </div>
                   <div class="font-size-h5 font-weight-bolder order-1 order-md-2 py-2 py-md-0">
                      <a href="javascript:;" data-toggle="modal" data-target="#hostin_supports" class="text-primary">Обратная связь</a>
@@ -296,7 +337,7 @@
    		}
    	});
    
-   	$('#kt_login_signin_form').ajaxForm({ 
+   	$('#kt_login_signin_form').ajaxForm({
    	    url: '/account/login/ajax',
    	    dataType: 'text',
    	    success: function(data) {

@@ -147,7 +147,7 @@
 			var self = this;
 			var htmlBar = '';
 			htmlBar += '<div class="pjAcceptCookieBarShell"><form action="#" method="post">';
-			htmlBar += '<p>Для улучшения работы сайта и его взаимодействия с пользователями мы используем файлы cookie. Продолжая работу с сайтом, Вы разрешаете использование cookie-файлов. Вы всегда можете отключить файлы cookie в настройках Вашего браузера. При использовании сайта 24HoursHost Вы соглашаетесь с нашей политикой файлов cookie. <a href="/ru/privacy.html">Соглашение</a></p>';
+			htmlBar += '<p>Для улучшения работы сайта и его взаимодействия с пользователями мы используем файлы cookie. Продолжая работу с сайтом, Вы разрешаете использование cookie-файлов. Вы всегда можете отключить файлы cookie в настройках Вашего браузера. При использовании сайта 24HoursHost Вы соглашаетесь с нашей политикой файлов cookie. <a href="https://24hours.host/oferta">Соглашение</a></p>';
 			htmlBar += '<div class="pjAcceptCookieBarActions"><button type="button" class="pjAcceptCookieBarBtn">ОК</button></div></form></div>';
 			var barDiv = document.createElement('div');
 			barDiv.id = "pjAcceptCookieBar";

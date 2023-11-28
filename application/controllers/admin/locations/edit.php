@@ -141,9 +141,9 @@ class editController extends Controller {
 		if(mb_strlen($name) < 2 || mb_strlen($name) > 32) {
 			$result = "Название локации должно содержать от 2 до 32 символов!";
 		}
-		elseif(!$validateLib->ip($ip)) {
+		/*elseif(!$validateLib->ip($ip)) {
 			$result = "Укажите допустимый IP!";
-		}
+		}*/
 		elseif(mb_strlen($user) < 2 || mb_strlen($user) > 32) {
 			$result = "Имя пользователя должно содержать от 2 до 32 символов!";
 		}

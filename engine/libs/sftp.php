@@ -1,16 +1,20 @@
 <?php
 
 class sftpLibrary {
-	public function connect($hostname, $username, $password) {
+	public function connect($hostname, $username, $port) {
 		if(is_readable(ENGINE_DIR . 'libs/seclib/Net/SFTP.php')) {
 			set_include_path(ENGINE_DIR . 'libs/seclib');
-			require_once(ENGINE_DIR . 'libs/seclib/Net/SFTP.php'); 
+			require_once(ENGINE_DIR . 'libs/seclib/Net/SFTP.php');
+			require_once(ENGINE_DIR . 'libs/seclib/Crypt/RSA.php');
 		} else {
 			exit("Ошибка: Не удалось загрузить библиотеку для работы с sftp!");
 		}
-			
-		$sftp = new Net_SFTP($hostname);
-		if ($sftp->login($username, $password)) {
+
+		$privateKey = new Crypt_RSA();
+		$privateKey->loadKey(file_get_contents('/etc/ssh/' . $hostname . '.key'));
+
+		$sftp = new Net_SFTP($hostname, $port);
+		if ($sftp->login($username, $privateKey)) {
 			return $sftp;
 		}
 		return 'Ошибка: Не удалось соединиться с сервером!';

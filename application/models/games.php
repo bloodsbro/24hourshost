@@ -41,7 +41,7 @@ class gamesModel extends Model {
 		return true;
 	}
 	
-	public function getGames($data = array(), $sort = array(), $options = array()) {
+	public function getGames($data = array(), $sort = array(), $options = array(), $group = null) {
 		$sql = "SELECT * FROM `games`";
 		if(!empty($data)) {
 			$count = count($data);
@@ -63,6 +63,10 @@ class gamesModel extends Model {
 				$count--;
 				if($count > 0) $sql .= ",";
 			}
+		}
+
+		if($group != null) {
+			$sql .= " GROUP BY $group";
 		}
 		
 		if(!empty($options)) {

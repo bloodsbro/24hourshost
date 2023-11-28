@@ -147,7 +147,7 @@
 							</select>
 						</div>
 					</div>
-					<div class="d-flex align-items-center bg-light-primary rounded p-4 mb-2">
+					<div class="d-flex align-items-center bg-dark-primary rounded p-4 mb-2">
 						<i class="flaticon-exclamation icon-xl text-primary mr-5"></i>
 						<div class="d-flex flex-column flex-grow-1 mr-2">
 							<span class="font-weight-bolder text-primary py-1 font-size-lg">Итого к оплате: <span id="price2">0.00 RUB</span></span>

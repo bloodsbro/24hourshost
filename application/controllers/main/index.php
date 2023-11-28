@@ -20,8 +20,9 @@ class indexController extends Controller {
 
 		$this->load->library('pagination');
 		$this->load->model('news');
-		
-		$sort = array(
+        $this->load->model('games');
+
+        $sort = array(
 			'news_date_add'	=> 'DESC'
 		);
 		
@@ -41,9 +42,14 @@ class indexController extends Controller {
 		$paginationLib->url = $this->config->url . 'news/index/index/{page}';
 		
 		$pagination = $paginationLib->render();
-		$this->data['news'] = $news;
+
+        $games = $this->gamesModel->getGames(array(
+            "game_status" => 1
+        ), array(), array(), "game_code");
+        $this->data['games'] = $games;
+        $this->data['news'] = $news;
 		$this->data['pagination'] = $pagination;
-		
+
 		$this->getChild(array('common/header', 'common/footer'));
 		return $this->load->view('main/index', $this->data);
 	}

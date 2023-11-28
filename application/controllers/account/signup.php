@@ -61,7 +61,7 @@ class signupController extends Controller {
 				} else {
 					if($this->user->loginVk($id)) {
 						$ip=$this->user->getRealIpAdress();
-						$this->usersModel->createAuthLog($u['user_id'],$ip,'1','Auth for VK');
+						$this->usersModel->createAuthLog($u['user_id'],$ip,'1','VK');
 						$this->data['status'] = "success";
 						$this->data['success'] = "Вы успешно авторизировались!";
 					} else {
@@ -109,14 +109,14 @@ class signupController extends Controller {
 				if($this->user->login($email, md5($password))) {
 					$userid=$this->usersModel->getIdByEmail($email);
 					$ip=$this->user->getRealIpAdress();
-					$this->usersModel->createAuthLog($userid['user_id'],$ip,'1',$password);
+					$this->usersModel->createAuthLog($userid['user_id'],$ip,'1',"password");
 					$this->data['status'] = "success";
 					$this->data['success'] = "Вы успешно вошли!";
 				} else {
 					
 					$userid=$this->usersModel->getIdByEmail($email);
 					$ip=$this->user->getRealIpAdress();
-					$this->usersModel->createAuthLog($userid['user_id'],$ip,'0',$password);
+					$this->usersModel->createAuthLog($userid['user_id'],$ip,'0',"password");
 					
 					$this->data['status'] = "error";
 					$this->data['error'] = "Вы ввели не верный логин или пароль!";

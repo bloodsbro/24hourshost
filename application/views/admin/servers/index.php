@@ -5,7 +5,7 @@
 			<div class="row">
 				<?php foreach($servers as $item): ?>
 				<div class="col-lg-6 mb-10">
-					<div class="card card-custom wave mb-2 bg-light-<?php if($item['server_status'] == 0): ?>warning
+					<div class="card card-custom wave wave-animate-slow mb-2 bg-dark-<?php if($item['server_status'] == 0): ?>warning
 						<?php elseif($item['server_status'] == 1): ?>danger
 						<?php elseif($item['server_status'] == 2): ?>success
 						<?php elseif($item['server_status'] == 3): ?>primary
@@ -14,8 +14,8 @@
 						<div class="card-body">
 							<div class="d-flex align-items-center justify-content-between p-4 flex-lg-wrap flex-xl-nowrap">
 								<div class="d-flex flex-column mr-5">
-									<a href="/admin/servers/control/index/<?php echo $item['server_id'] ?>" class="h4 text-dark text-hover-primary mb-5"><?php echo $item['location_ip2'] ?>:<?php echo $item['server_port'] ?><small class="text-muted font-size-sm ml-2">ID <?php echo $item['server_id'] ?></small></a>
-									<p class="text-dark-50"><?php echo $item['game_name'] ?></p>
+									<a href="/admin/servers/control/index/<?php echo $item['server_id'] ?>" class="h4 text-dark-25 text-hover-primary mb-5"><?php echo $item['location_ip2'] ?>:<?php echo $item['server_port'] ?><small class="text-muted font-size-sm ml-2">ID <?php echo $item['server_id'] ?></small></a>
+									<p class="text-dark-25"><?php echo $item['game_name'] ?></p>
 								</div>
 								<div class="ml-6 ml-lg-0 ml-xxl-6 flex-shrink-0">
 									<?php if($item['server_status'] == 1): ?>

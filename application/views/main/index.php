@@ -95,12 +95,12 @@
                </div>
             </div>
 			
-			<div class="col-lg-10 col-xl-12 mb-2">
+			<!--<div class="col-lg-10 col-xl-12 mb-2">
                <div class="card card-custom mb-4 mb-lg-0">
                   <div class="card-body">
                      	<div class="col-lg-10 col-xl-12 mb-2">
 						<center>
-						 <div class="text-dark text-hover-primary font-weight-bold font-size-h4">Безопасная и быстрая оплата</div>
+						 <div class="text-dark-25 text-hover-primary font-weight-bold font-size-h4">Безопасная и быстрая оплата</div>
 						<hr>
 						<div class="col-lg-10 col-xl-12">
 						  <a target="blank" class="mb-3"> <img style="padding: 10px;" width = "150" height = "75" src="/application/public/img/pay/qiwi.png" alt="" /> </a>
@@ -113,79 +113,83 @@
                      </div>
                   </div>
                </div>
-            </div>
+            </div>-->
 			
-			<div class="col-lg-6 col-xl-6 mb-5">
+			<!--<div class="col-lg-6 col-xl-6 mb-5">
                <div class="card card-custom wave wave-animate-slow mb-8 mb-lg-0">
                   <div class="card-body">
                      <div class="d-flex align-items-center p-5">
                         <div class="mr-6">
-						<img src="/ru/img/finx-games-crmp.png" alt="Иллюстрация" width="100" height="100" class="rightpic">
+						<img src="/ru/img/crmp.png" alt="Иллюстрация" width="100" height="100" class="rightpic">
                         </div>
                         <div class="d-flex flex-column">
-                           <div class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3">GTA: CR:MP</div>
-                           <div class="text-dark-75">GTA: Criminal Russia Multiplayer</div>
+                           <div class="text-dark-25 text-hover-primary font-weight-bold font-size-h4 mb-3">GTA: CR:MP</div>
+                           <div class="text-dark-25-75">GTA: Criminal Russia Multiplayer</div>
                         </div>
                      </div>		
                   </div>
                </div>
-            </div>
-			
+            </div>-->
+
+             <?php foreach($games as $game): ?>
+
 			<div class="col-lg-6 col-xl-6 mb-5">
                <div class="card card-custom wave wave-animate-slow mb-8 mb-lg-0">
                   <div class="card-body">
                      <div class="d-flex align-items-center p-5">
                         <div class="mr-6">
-						<img src="/ru/img/finx-games-samp.png" alt="Иллюстрация" width="100" height="100" class="rightpic">
+						<img src="/ru/img/<?php echo $game['game_code']; ?>.png" alt="Иллюстрация" width="100" height="100" class="rightpic">
                         </div>
                         <div class="d-flex flex-column">
-                           <div class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3">GTA: SA:MP</div>
-                           <div class="text-dark-75">GTA: San Andreas Multiplayer</div>
+                           <div class="text-dark-25 text-hover-primary font-weight-bold font-size-h4 mb-3"><?php echo $game['game_name']; ?></div>
+                           <div class="text-dark-25-75"><?php echo $game['game_code'] ?></div>
                         </div>
                      </div>				
                   </div>
                </div>
             </div>
-			<div class="col-lg-6 col-xl-6 mb-5">
+
+            <?php endforeach; ?>
+			<!--<div class="col-lg-6 col-xl-6 mb-5">
                <div class="card card-custom wave wave-animate-slow mb-8 mb-lg-0">
                   <div class="card-body">
                      <div class="d-flex align-items-center p-5">
                         <div class="mr-6">
-						<img src="/ru/img/finx-games-mta.png" alt="Иллюстрация" width="100" height="100" class="rightpic">
+						<img src="/ru/img/mta.png" alt="Иллюстрация" width="100" height="100" class="rightpic">
                         </div>
                         <div class="d-flex flex-column">
-                           <div class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3">GTA: MTA 1.5.8</div>
-                           <div class="text-dark-75">Multi Theft Auto: San Andreas</div>
+                           <div class="text-dark-25 text-hover-primary font-weight-bold font-size-h4 mb-3">GTA: MTA 1.5.8</div>
+                           <div class="text-dark-25-75">Multi Theft Auto: San Andreas</div>
                         </div>
                      </div>				
                   </div>
                </div>
-            </div>
-			<div class="col-lg-6 col-xl-6 mb-5">
+            </div>-->
+			<!--<div class="col-lg-6 col-xl-6 mb-5">
                <div class="card card-custom wave wave-animate-slow mb-8 mb-lg-0">
                   <div class="card-body">
                      <div class="d-flex align-items-center p-5">
                         <div class="mr-6">
-						<img src="/ru/img/finx-games-cs.png" alt="Иллюстрация" width="100" height="100" class="rightpic">
+						<img src="/ru/img/minecraft.png" alt="Иллюстрация" width="100" height="100" class="rightpic">
                         </div>
                         <div class="d-flex flex-column">
-                           <div class="text-dark text-hover-primary font-weight-bold font-size-h4 mb-3">Counter-Strike: 1.6</div>
-                           <div class="text-dark-75">Counter-Strike: 1.6</div>
+                           <div class="text-dark-25 text-hover-primary font-weight-bold font-size-h4 mb-3">Minecraft</div>
+                           <div class="text-dark-25-75">v 1.20.2</div>
                         </div>
                      </div>			
                   </div>
                </div>
-            </div>
-            <div class="col-lg-12 col-xl-12 mb-5">
+            </div>-->
+            <!-- <div class="col-lg-12 col-xl-12 mb-5">
                <?php echo $pagination ?>
 			  <div class="kt-portlet__body">
 				<div class="kt-widget-17">
 					<div id="vk_widget" style="width: 100%;">
-						<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-discussion="contest/198" data-comments-limit="5"></script>
+						<script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-discussion="HoursHost_RU/6" data-comments-limit="5"></script>
 					</div>
 				</div>
 			</div>	
-            </div>
+            </div> -->
 			<style>
     .list-group {
     display: -webkit-box;

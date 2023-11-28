@@ -12,19 +12,8 @@
 					</div>
 					</div>
 					<div class="col-xl-8 col-xxl-8">
-						<div class="card card-custom card-stretch card-shadowless bg-gray-100 gutter-b">
-							<div class="card-header border-0 pt-7">
-								<h3 class="card-title align-items-start flex-column">
-									<span class="card-label font-weight-bold font-size-h4 text-dark-75">Модуль - 1 SIMPLE</span>
-								</h3>
-							</div>
+						<div class="card card-custom card-stretch card-shadowless  gutter-b">
 							<div class="card-body pt-1 pb-4">
-								<label>Защита от DoS / DDoS</label>
-								<div class="custom-control custom-switch mt-2">
-									<input type="checkbox" class="custom-control-input" disabled id="customSwitch2">
-									<label class="custom-control-label" for="customSwitch2">Активирована</label>
-								</div>
-								<br>
 								<div class="form-group form-md-line-input">
 									<label>Выберите игру <!-- *Бесплатные тарифы указаны ниже! --></label>
 									<select class="form-control" id="gameid" name="gameid" aria-required="true" aria-invalid="false" aria-describedby="delivery-error" onChange="updateForm()">
@@ -50,7 +39,8 @@
 								<div class="form-group form-md-line-input">
 									<label>Выберите период оплаты</label>
 									<select class="form-control" id="days" name="days" aria-required="true" aria-invalid="false" aria-describedby="delivery-error" onChange="updateForm()">
-										<option value="15">15 дней</option>
+                                        <option value="0">Тестовый период (7 дней)</option>
+                                        <option value="15">15 дней</option>
 										<option value="30">30 дней</option>
 										<option value="60">60 дней</option>
 										<option value="90">90 дней (-5%)</option>
@@ -61,10 +51,12 @@
 								<div class="form-group form-md-line-input">
 									<label>Введите количество слотов</label>
 									<div class="input-group">
-										<input oninput="this.value = this.value.replace(/\D/g, '')" class="form-control" id="slots" name="slots" onkeyup="updateForm(true)">
+                                        <div class="input-group-append">
+                                            <button type="button" onclick="minusSlots()" class="btn btn-light-danger btn-icon" style="border-radius: 50% 0 0 50%"><i class="fa fa-minus"></i></button>
+                                        </div>
+										<input required oninput="this.value = this.value.replace(/\D/g, '')" class="form-control" id="slots" name="slots" onkeyup="updateForm(true)">
 										<div class="input-group-prepend">
-											<button type="button" onclick="plusSlots()" class="btn btn-light-primary btn-icon"><i class="fa fa-plus"></i></button>
-											<button type="button" onclick="minusSlots()" class="btn btn-light-danger btn-icon"><i class="fa fa-minus"></i></button>
+											<button type="button" onclick="plusSlots()" class="btn btn-light-primary btn-icon" style="border-radius: 0 50% 50% 0"><i class="fa fa-plus"></i></button>
 										</div>
 									</div>
 								</div>
@@ -76,21 +68,21 @@
 								</div>	
 								<label>Придумайте пароль для FTP</label>
 								<div class="input-group">
-									<input type="text" class="form-control m-input" id="password" name="password" placeholder="Пароль">
+									<input required type="text" class="form-control m-input" id="password" name="password" placeholder="Пароль">
 									<div class="input-group-append">
-										<button type="button" onClick="genPass()" class="btn btn-light-primary btn-icon"><i class="fa fa-undo"></i></button>
+										<button type="button" onClick="genPass()" class="btn btn-light-primary btn-icon"><i class="fa fa-pencil-alt"></i></button>
 									</div>
 								</div>
 								<br>
 								<div class="form-group form-md-line-input">
 									<label>Повторите пароль для FTP</label>
-									<input type="text" class="form-control" id="password2" name="password2" placeholder="Повторите пароль">
+									<input required type="text" class="form-control" id="password2" name="password2" placeholder="Повторите пароль">
 								</div>
-								<label>Введите RCON пароль</label> <b style="color: red;">*</b>Необязательно
+								<label>Введите RCON пароль</label>
 								<div class="input-group">
-									<input type="text" class="form-control m-input" id="rcon_password" name="rcon_password" placeholder="RCON****">
+									<input required type="text" class="form-control m-input" id="rcon_password" name="rcon_password" placeholder="RCON пароль">
 									<div class="input-group-append">
-										<button type="button" onClick="genRconPass()" class="btn btn-light-primary btn-icon"><i class="fa fa-undo"></i></button>
+										<button type="button" onClick="genRconPass()" class="btn btn-light-primary btn-icon"><i class="fa fa-pencil-alt"></i></button>
 									</div>
 								</div>
 								<hr>
@@ -98,37 +90,26 @@
 						</div>
 					</div>
 					<div class="col-xl-4 col-xxl-4">
-						<div class="card card-custom card-shadowless bg-gray-100 gutter-b">
+						<div class="card card-custom card-shadowless  gutter-b">
 							<div class="card-header border-0 pt-7">
 								<h3 class="card-title align-items-start flex-column">
-									<span class="card-label font-weight-bold font-size-h4 text-dark-75">Информация о заказе</span>
+									<span class="card-label font-weight-bold font-size-h4 text-dark-25">Информация о заказе</span>
 								</h3>
 							</div>
 							<div class="card-body pt-1 pb-4">
 								<div class="accordion accordion-toggle-arrow" id="accordionExample">
 									<div class="card">
-										<div class="card-header" id="heading3">
-											<div class="card-title collapsed" data-toggle="collapse" role="button" data-target="#collapse3" aria-expanded="false" aria-controls="collapseThree">
-												<i class="fa fa-gift"></i> Есть купон? 
-											</div>
-										</div>
-										<div id="collapse3" class="card-body-wrapper collapse" aria-labelledby="heading3" data-parent="#accordionExample" style="">
-											<div class="card-body">
-												<div data-repeater-item="" class="kt--margin-bottom-10">
-													<div class="input-group">
-														<div class="input-group-prepend">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
 															<span class="input-group-text">
 															<i class="fa fa-gift"></i>
 															</span>
-														</div>
-														<input id="promo" type="text" class="form-control form-control-danger" type="promo" name="promo" placeholder="Купон">
-														<div class="input-group-append">
-															<button type="button" onclick="promoCode()" class="btn btn-light-primary btn-icon"><i class="fa fa-check"></i></button>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
+                                            </div>
+                                            <input id="promo" type="text" class="form-control form-control-danger" type="text" name="promo" placeholder="Есть купон?">
+                                            <div class="input-group-append">
+                                                <button type="button" onclick="promoCode()" class="btn btn-light-primary btn-icon"><i class="fa fa-check"></i></button>
+                                            </div>
+                                        </div>
 									</div>
 								</div>
 								<hr>
@@ -137,7 +118,7 @@
 									<div class="text-muted font-weight-bold mb-3" id="server">Получение данных...</div>
 								</div>
 								<hr>
-								<center><span>Заказывая игровой сервер вы соглашаетесь с <a target="_blank" href="/ru/oferta.html">Договором Оферты</a></span></center>
+								<center><span>Заказывая игровой сервер вы соглашаетесь с <a target="_blank" href="https://24hours.host/oferta">Договором Оферты</a></span></center>
 								<br>
 								<center>
 								<a href="javascript:;" data-toggle="modal" data-target="#hostin_supports" class="btn btn-outline-primary" role="button" aria-pressed="true">Подробнее о тарифах</a>
@@ -256,10 +237,10 @@
 								</div>
 							</div>
 			
-			<div class="card card-custom card-shadowless bg-gray-100">
+			<div class="card card-custom card-shadowless ">
 				<div class="card-header border-0 pt-7">
 					<h3 class="card-title align-items-start flex-column">
-						<span class="card-label font-weight-bold font-size-h4 text-dark-75">Преимущества нашего хостинга</span>
+						<span class="card-label font-weight-bold font-size-h4 text-dark-25">Преимущества нашего хостинга</span>
 					</h3>
 				</div>
 				<div class="card-body pt-0 pb-4">
@@ -271,7 +252,7 @@
 									<span class="navi-bullet">
 									<i class="bullet"></i>
 									</span>
-									<span class="navi-text">Мощные процессоры Intel</span>
+									<span class="text-dark-25">Мощные процессоры Intel</span>
 									<span class="navi-label">
 									<i class="fas fa-check text-primary"></i>
 									</span>
@@ -282,7 +263,7 @@
 									<span class="navi-bullet">
 									<i class="bullet"></i>
 									</span>
-									<span class="navi-text">Защита от DDoS атак на оборудование.</span>
+									<span class="text-dark-25">Защита от DDoS атак на оборудование.</span>
 									<span class="navi-label">
 									<i class="fas fa-check text-primary"></i>
 									</span>
@@ -293,7 +274,7 @@
 									<span class="navi-bullet">
 									<i class="bullet"></i>
 									</span>
-									<span class="navi-text">Полный доступ к FTP</span>
+									<span class="text-dark-25">Полный доступ к FTP</span>
 									<span class="navi-label">
 									<i class="fas fa-check text-primary"></i>
 									</span>
@@ -304,7 +285,7 @@
 									<span class="navi-bullet">
 									<i class="bullet"></i>
 									</span>
-									<span class="navi-text">Бесплатная база MySQL</span>
+									<span class="text-dark-25">Бесплатная база MySQL</span>
 									<span class="navi-label">
 									<i class="fas fa-check text-primary"></i>
 									</span>
@@ -319,7 +300,7 @@
 									<span class="navi-bullet">
 									<i class="bullet"></i>
 									</span>
-									<span class="navi-text">Создание резервных копий backup</span>
+									<span class="text-dark-25">Создание резервных копий backup</span>
 									<span class="navi-label">
 									<i class="fas fa-check text-primary"></i>       
 									</span>
@@ -330,7 +311,7 @@
 									<span class="navi-bullet">
 									<i class="bullet"></i>
 									</span>
-									<span class="navi-text">Смена версии сервера одним кликом</span>
+									<span class="text-dark-25">Смена версии сервера одним кликом</span>
 									<span class="navi-label">
 									<i class="fas fa-check text-primary"></i>
 									</span>
@@ -341,7 +322,7 @@
 									<span class="navi-bullet">
 									<i class="bullet"></i>
 									</span>
-									<span class="navi-text">Скоростные SSD диски</span>
+									<span class="text-dark-25">Скоростные SSD диски</span>
 									<span class="navi-label">
 									<i class="fas fa-check text-primary"></i>
 									</span>
@@ -352,7 +333,7 @@
 									<span class="navi-bullet">
 									<i class="bullet"></i>
 									</span>
-									<span class="navi-text">Удобная панель управления</span>
+									<span class="text-dark-25">Удобная панель управления</span>
 									<span class="navi-label">
 									<i class="fas fa-check text-primary"></i>
 									</span>

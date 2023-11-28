@@ -54,7 +54,64 @@ class controlController extends Controller {
 		
 		$stats = $this->serversModel->getServerStats($serverid, "NOW() - INTERVAL 1 DAY", "NOW()");
 		$this->data['stats'] = $stats;
-		
+
+        if($server['server_status'] == 2 AND $server['game_code'] == "cs" || $server['game_code'] == "css" || $server['game_code'] == "csgo") {
+            $this->load->library('ssh2');
+
+            $ssh = new ssh2Library();
+            $connect = $ssh->connect($server['location_ip'], $server['location_user'], $server['location_port']);
+            $output = $ssh->execute($connect, "cd /home/gs".$server['server_id']."/cstrike/maps/; ls | grep .bsp;");
+            $disconnect = $ssh->disconnect($connect);
+            $data = $output . $disconnect;
+            $data = explode("\n", $data);
+
+            $maps = '<option selected="selected" value="' . $query['mapname'] . '">' . $query['mapname'] . '</option>';
+
+            foreach ($data as $map) {
+                if (!preg_match('/\.(bsp.ztmp)/', $map)) {
+                    $map = str_replace(".bsp", "", $map);
+                    $maps .= '<option value="' . $map . '">' . $map . '</option>';
+                }
+            }
+            $this->data['maps'] = $maps;
+        }
+
+        if($server['game_code'] == "mcpe" || $server['game_code'] == "mine") {
+            $cores = @array_reverse(@$this->game_settings->cores[$server['game_code']]);
+            $this->data["cores"] = $cores;
+            $no_core = @array_reverse(@$this->game_settings->cores[$server['game_code']]['latest_core']);
+            $this->data["no_core"] = $no_core;
+        }
+
+        if($server['game_code'] == "cs" || $server['game_code'] == 'samp' || $server['game_code'] == 'crmp') {
+            $builds = @array_reverse(@$this->game_settings->builds[$server['game_code']]);
+            $this->data["builds"] = $builds;
+            $no_build = @array_reverse(@$this->game_settings->builds[$server['game_code']]['latest_build']);
+            $this->data["no_build"] = $no_build;
+        }
+
+        if($server['server_status'] == 1 AND $server['game_code'] == "ragemp") {
+            $node_modules = @array_reverse(@$this->game_settings->node_modules[$server['game_code']]);
+            $this->data["node_modules"] = $node_modules;
+        }
+
+        if($server['server_status'] == 1 AND $server['game_code'] == "cs" || $server['game_code'] == "css" || $server['game_code'] == "csgo") {
+            if($server["game_code"] == "cs") {
+                $fps = array("300", "500", "1100");
+                $this->data["fps"] = $fps;
+            }
+
+            if($server["game_code"] == "csgo") {
+                $tickrate = array("64", "128");
+                $this->data["tickrate"] = $tickrate;
+            }
+
+            if($server["game_code"] == "css") {
+                $tickrate = array("66", "100");
+                $this->data["tickrate"] = $tickrate;
+            }
+        }
+
 		$this->getChild(array('common/admheader', 'common/footer'));
 		return $this->load->view('admin/servers/control', $this->data);
 	}
@@ -229,9 +286,9 @@ class controlController extends Controller {
 				if($server['server_status'] == 1) {
 					$stats = $this->serversModel->getHDD($server['server_id']);
 					if((int)$stats < $server['game_ssd']) {
-						$this->serversModel->deleteTask(array('task_name' => 'restart', 'server_id' => $serverid));
+						/* $this->serversModel->deleteTask(array('task_name' => 'restart', 'server_id' => $serverid));
 						$this->serversModel->deleteTask(array('task_name' => 'enable', 'server_id' => $serverid));
-						$this->serversModel->deleteTask(array('task_name' => 'disable', 'server_id' => $serverid));
+						$this->serversModel->deleteTask(array('task_name' => 'disable', 'server_id' => $serverid)); */
 						$this->serversModel->updateServer($serverid, array('server_status' => 5, 'server_work' => 0));
 						$logData = array(
 							'server_id'			=> $serverid,
@@ -254,10 +311,16 @@ class controlController extends Controller {
 			
 			case 'unbackup': {
 				if($server['server_status'] == 1) {
-					if (file_exists('ssh2.sftp://'.$server['location_user'].':'.$server['location_password'].'@'.$server['location_ip'].':22/home/cp/backups/gs'.$serverid.'.tar')) {
-						$this->serversModel->deleteTask(array('task_name' => 'restart', 'server_id' => $serverid));
+                    $ssh = new ssh2Library();
+                    $connect = $ssh->connect($server['location_ip'], $server['location_user'], $server['location_port']);
+                    $data = $ssh->execute($connect, "ls /home/cp/backups/gs$serverid.tar");
+                    $ssh->disconnect($connect);
+                    $data = explode("\n", $data);
+
+                    if ($data[0]) {
+						/* $this->serversModel->deleteTask(array('task_name' => 'restart', 'server_id' => $serverid));
 						$this->serversModel->deleteTask(array('task_name' => 'enable', 'server_id' => $serverid));
-						$this->serversModel->deleteTask(array('task_name' => 'disable', 'server_id' => $serverid));
+						$this->serversModel->deleteTask(array('task_name' => 'disable', 'server_id' => $serverid)); */
 						$this->serversModel->updateServer($serverid, array('server_status' => 6, 'server_work' => 0));
 						$logData = array(
 							'server_id'			=> $serverid,
@@ -280,7 +343,13 @@ class controlController extends Controller {
 			
 			case 'delete_backup': {
 				if($server['server_status'] == 1) {
-					if (file_exists('ssh2.sftp://'.$server['location_user'].':'.$server['location_password'].'@'.$server['location_ip'].':22/home/cp/backups/gs'.$serverid.'.tar')) {
+                    $ssh = new ssh2Library();
+                    $connect = $ssh->connect($server['location_ip'], $server['location_user'], $server['location_port']);
+                    $data = $ssh->execute($connect, "ls /home/cp/backups/gs$serverid.tar");
+                    $ssh->disconnect($connect);
+                    $data = explode("\n", $data);
+
+                    if ($data[0]) {
 						$result = $this->serversModel->action($serverid, 'delete_backup');
 						if($result["status"] == "success") {
 							$logData = array(

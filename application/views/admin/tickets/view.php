@@ -208,10 +208,9 @@
 	
 	$('#sendForm').ajaxForm({ 
 		url: '/admin/tickets/view/ajax/<?php echo $ticket['ticket_id'] ?>',            
-		dataType: 'text',
+		dataType: 'json',
 		success: function(data) {
 			console.log(data);
-			data = $.parseJSON(data);
 			switch(data.status) {
 				case 'error':
 					toastr.error(data.error);

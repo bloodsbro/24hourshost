@@ -2,7 +2,6 @@
 
 class accController extends Controller {
 	public function index() {
-		$this->data['vk_id'] = $this->config->vk_id;
 		$this->data['url'] = $this->config->url;
 		
 		if(!$this->user->isLogged()) {
@@ -21,8 +20,9 @@ class accController extends Controller {
 		$this->data['user_balance'] = $this->user->getBalance();
 		$this->data['user_img'] = $this->user->getUser_img();
 		$this->data['user_balance'] = $this->user->getBalance();
-		
-		$this->load->model('waste');
+        $this->data['user_tg'] = $this->user->getTg();
+
+        $this->load->model('waste');
 		$this->load->model('tickets');
 		$this->load->model('users');
 		$this->load->model('servers');
@@ -212,7 +212,56 @@ class accController extends Controller {
 		$this->load->model('waste');
 		
 		switch($action) {
+            case 'setTg': {
+                $result = false;
+                if($this->user->getTg()) $result = "У Вас уже привязан TG";
+                $auth_data = $this->request->post['auth_id'];
+
+                $check_hash = $auth_data['hash'];
+                unset($auth_data['hash']);
+                $data_check_arr = [];
+                foreach ($auth_data as $key => $value) {
+                    $data_check_arr[] = $key . '=' . $value;
+                }
+                sort($data_check_arr);
+                $data_check_string = implode("\n", $data_check_arr);
+                $secret_key = hash('sha256', $this->config->telegram_token, true);
+                $hash = hash_hmac('sha256', $data_check_string, $secret_key);
+                if (strcmp($hash, $check_hash) !== 0) {
+                    $result = "Data is NOT from Telegram";
+                }
+                if ((time() - $auth_data['auth_date']) > 86400) {
+                    $result = "Data is outdated";
+                }
+
+                if($this->usersModel->getTotalUsers(array('user_tg' => $auth_data['id']))) {
+                    $result = "Данный профиль уже привязан к другому аккаунту!";
+                }
+
+                if(!$result) {
+                    $this->usersModel->updateUser($userid, array('user_tg' => $auth_data['id']));
+
+                    $this->data['status'] = "success";
+                    $this->data['success'] = "Вы успешно привязали TG!";
+                } else {
+                    $this->data['status'] = "error";
+                    $this->data['error'] = $result;
+                }
+                break;
+            }
+            case 'unsetTg': {
+                if ($this->user->getTg()) {
+                    $this->usersModel->updateUser($userid, array('user_tg' => 0));
+                    $this->data['status'] = "success";
+                    $this->data['success'] = "Вы успешно отвязали TG!";
+                } else {
+                    $this->data['status'] = "error";
+                    $this->data['error'] = "На данный момент у Вас не привязан TG!";
+                }
+                break;
+            }
 			case 'setVk': {
+                var_dump($_REQUEST);
 				if($this->request->post['auth']){
 					$Uid = $this->request->post['response']['session']['user']['id'];
 					
@@ -230,13 +279,16 @@ class accController extends Controller {
 							$this->data['error'] = "Данный аккаунт уже привязан!";
 						}
 					}
-					return json_encode($this->data);
-				}
+                    break;
+				} else {
+                    $this->data['status'] = "error";
+                    $this->data['error'] = "Не пришли данные от VK!";
+                }
 			
-				if($this->request->post['auth_vk']) {
+				/* if($this->request->post['auth_vk']) {
 					if($user = @file_get_contents("https://api.vk.com/method/users.get?uids={$this->session->data['auth_vk']}&fields=uid,first_name,last_name,screen_name,sex,bdate,photo_big"))
 					$this->data['user'] = json_decode($user, true);
-				}
+				} */
 				break;
 			}
 			case 'unsetVk': {
@@ -364,33 +416,40 @@ class accController extends Controller {
 					return json_encode($this->data);
 				}
 
-				$random = md5(uniqid(rand(), true));
-				$this->usersModel->updateUser($userid, array('user_new_email' => $email . '|' . $random));
-				$user = $this->usersModel->getUserById($userid);
-				
-				$this->load->library('mail');
+                if(strlen($this->user->getEmail()) === 0) {
+                    $this->usersModel->updateUser($userid, array('user_email' => $email));
 
-				$mailLib = new mailLibrary();
-				$mailLib->setFrom($this->config->mail_from);
-				$mailLib->setSender($this->config->mail_sender);
-				$mailLib->setTo($user['user_email']);
-				$mailLib->setSubject("Смена E-Mail");		
-				$mailData = array();
-				$mailData['firstname'] = $user['user_firstname'];
-				$mailData['lastname'] = $user['user_lastname'];
-				$mailData['email'] = $user['user_email'];
-				$mailData['new_email'] = $email;
-				$mailData['userid'] = $userid;
-				$mailData['key'] = $random;
-				$mailData['url'] = $this->config->url;
-				$mailData['title'] = $this->config->title;
-				$text = $this->load->view('mail/account/change_email', $mailData);
-									
-				$mailLib->setText($text);
-				$mailLib->send();
+                    $this->data['status'] = 'success';
+                    $this->data['success'] = 'Вы успешно установили почту!';
+                } else {
+                    $random = md5(uniqid(rand(), true));
+                    $this->usersModel->updateUser($userid, array('user_new_email' => $email . '|' . $random));
+                    $user = $this->usersModel->getUserById($userid);
 
-				$this->data['status'] = 'success';
-				$this->data['success'] = 'На текущий E-Mail \'' . $user['user_email'] . '\' Отправлена инструкция с дальнейшими действиями!';
+                    $this->load->library('mail');
+
+                    $mailLib = new mailLibrary();
+                    $mailLib->setFrom($this->config->mail_from);
+                    $mailLib->setSender($this->config->mail_sender);
+                    $mailLib->setTo($user['user_email']);
+                    $mailLib->setSubject("Смена E-Mail");
+                    $mailData = array();
+                    $mailData['firstname'] = $user['user_firstname'];
+                    $mailData['lastname'] = $user['user_lastname'];
+                    $mailData['email'] = $user['user_email'];
+                    $mailData['new_email'] = $email;
+                    $mailData['userid'] = $userid;
+                    $mailData['key'] = $random;
+                    $mailData['url'] = $this->config->url;
+                    $mailData['title'] = $this->config->title;
+                    $text = $this->load->view('mail/account/change_email', $mailData);
+
+                    $mailLib->setText($text);
+                    $mailLib->send();
+
+                    $this->data['status'] = 'success';
+                    $this->data['success'] = 'На текущий E-Mail отправлена инструкция с дальнейшими действиями!';
+                }
 			}
 			else {
 				$this->data['status'] = 'error';
@@ -424,6 +483,82 @@ class accController extends Controller {
 
 		$this->response->redirect('/account/login');
 	}
+
+    public function set_totp() {
+        if (!$this->user->isLogged()) {
+            $this->data['status'] = 'error';
+            $this->data['error'] = 'Вы не авторизированы!';
+            return json_encode($this->data);
+        }
+
+        if ($this->user->getAccessLevel() < 1) {
+            $this->data['status'] = 'error';
+            $this->data['error'] = 'У вас нет доступа к данному разделу!';
+            return json_encode($this->data);
+        }
+
+        if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+            $totp_key = $this->request->post['totp_key'];
+            $totp_code = $this->request->post['totp_code'];
+
+            $errorPOST_totp = $this->validatePOST_totp($totp_key, $totp_code);
+
+            if (!$errorPOST_totp) {
+                $this->load->model('users');
+                $userid = $this->user->getId();
+
+                $this->notify->user($userid, "На Ваш аккаунт была привязана двухфакторная аутентификация!");
+                $this->usersModel->updateUser($userid, array('user_totp' => $totp_key));
+
+                $this->data['status'] = 'success';
+                $this->data['success'] = 'Вы успешно привязали двухфакторную аутентификацию!';
+            }
+            else {
+                $this->data['status'] = 'error';
+                $this->data['error'] = $errorPOST_totp;
+            }
+        }
+
+        return json_encode($this->data);
+    }
+
+    private function validatePOST_totp($key, $code) {
+        require_once(ENGINE_DIR . "/libs/totp.php");
+
+        $valid = TOTP::getOTP($key);
+        if(@$valid['err'] || (@$valid['otp'] !== $code)) {
+            $result = "Вы ввели неверный код из приложения!";
+        }
+
+        return $result;
+    }
+
+    public function unset_totp() {
+        if (!$this->user->isLogged()) {
+            $this->data['status'] = 'error';
+            $this->data['error'] = 'Вы не авторизированы!';
+            return json_encode($this->data);
+        }
+
+        if ($this->user->getAccessLevel() < 1) {
+            $this->data['status'] = 'error';
+            $this->data['error'] = 'У вас нет доступа к данному разделу!';
+            return json_encode($this->data);
+        }
+
+        if ($this->request->server['REQUEST_METHOD'] == 'POST') {
+            $this->load->model('users');
+            $userid = $this->user->getId();
+
+            $this->notify->user($userid, "С Вашего аккаунта была отвязана двухфакторная аутентификацию");
+            $this->usersModel->updateUser($userid, array('user_totp' => null));
+
+            $this->data['status'] = 'success';
+            $this->data['success'] = 'Вы успешно отвязали двухфакторную аутентификацию!';
+        }
+
+        return json_encode($this->data);
+    }
 	
 	public function img() {
 		if(!$this->user->isLogged()) {  
@@ -440,26 +575,26 @@ class accController extends Controller {
 		$this->load->model('users');
 		
 		if($this->request->server['REQUEST_METHOD'] == 'POST') {
-			$uploaddir = 'tmp/avatar/';
-			$apend=date('YmdHis').rand(100,1000).'.jpg'; 
-			$uploadfile = "$uploaddir$apend"; 
+            $userid = $this->user->getId();
+			$uploadfile = 'tmp/avatar/'.$userid.'.jpg';
 
-			if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) { 
-				if($_FILES['userfile']['type'] == 'image/gif' || $_FILES['userfile']['type'] == 'image/jpeg' || $_FILES['userfile']['type'] == 'image/png') {  
-					if($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size'] <= 512000) {
-						$size = getimagesize($uploadfile); 
-						if ($size[0] <= 512 && $size[1] <= 512)  { 
-							$userid = $this->user->getId();	
-							$this->usersModel->updateUser($userid, array('user_img' => $uploadfile));
+			if(move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+				if(exif_imagetype($uploadfile) !== FALSE) {
+					if($_FILES['userfile']['size'] != 0 and $_FILES['userfile']['size'] <= 8192000) {
+						$size = getimagesize($uploadfile);
+						if ($size[0] <= 4496 && $size[1] <= 4496)  {
+                            chmod($uploadfile, 0666);
+
+                            $this->usersModel->updateUser($userid, array('user_img' => $uploadfile));
 							$this->data['status'] = "success";
 							$this->data['success'] = "Аватар успешно был загружен!";			 
 						} else {
-							$this->data['error'] = 'Загружаемое изображение превышает допустимые нормы!';
+							$this->data['error'] = 'Загружаемое изображение превышает допустимые нормы (4496x4496)!';
 							$this->data['status'] = "error";
 							unlink($uploadfile); 
 						} 
 					} else { 
-						$this->data['error'] = 'Размер изображения не должено превышать 512Кб';
+						$this->data['error'] = 'Размер изображения не должено превышать 8Мб';
 						$this->data['status'] = "error";
 					} 
 				} else {     
